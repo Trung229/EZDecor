@@ -6,9 +6,14 @@ var logger = require('morgan');
 require('dotenv').config();
 
 
-var indexRouter = require('./routes/index');
+var indexRouter = require('./routes/signIn');
 var usersRouter = require('./routes/users');
 var mainRouter = require('./routes/main');
+const mongoose = require('mongoose');
+
+mongoose.connect(process.env.MONGODB,{useNewUrlParser: true, useUnifiedTopology: true})
+.then((res)=> console.log(">>>>>DB connected"))
+.catch((err)=> console.error("Connect fail", err));
 
 var app = express();
 
