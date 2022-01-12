@@ -14,6 +14,5 @@ exports.logIn = async (emailF, passwordF)=>{
             status: false,
         };
     }
-    return {id: user._id, email: user.email, status: true};
+    return {id: user._id, email: user.email, status: true, avatar: user.avatar};
 }
-

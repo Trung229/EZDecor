@@ -13,7 +13,7 @@ router.post('/',async function (req, res, next) {
   const {email, password} = req.body;
   const check = await userController.logIn(email,password);
   if(check.status){
-    const token = jwt.sign({email, password}, process.env.ACCESS_TOKEN, {expiresIn: '60s'});
+    const token = jwt.sign({email, password, avatar: check.avatar}, process.env.ACCESS_TOKEN, {expiresIn: '1h'});
     res.json({status:check.status, token});
   }else{
     res.json({payload:check});
