@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
 
-
 exports.authenToken = async (req, res, next) => {
     const userToken = req.query.userToken;
     if (!userToken) {
