@@ -11,7 +11,10 @@ var usersRouter = require('./routes/users');
 var mainRouter = require('./routes/main');
 const mongoose = require('mongoose');
 
-mongoose.connect(process.env.MONGODB,{useNewUrlParser: true, useUnifiedTopology: true})
+
+const url = `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOSTNAME}:${process.env.MONGO_PORT}/${process.env.MONGO_DB}?authSource=admin`;
+
+mongoose.connect(url,{useNewUrlParser: true, useUnifiedTopology: true})
 .then((res)=> console.log(">>>>>DB connected"))
 .catch((err)=> console.error("Connect fail", err));
 
