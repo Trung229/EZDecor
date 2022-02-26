@@ -14,7 +14,9 @@ const mongoose = require('mongoose');
 
 const url = `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOSTNAME}:${process.env.MONGO_PORT}/${process.env.MONGO_DB}?authSource=admin`;
 
-mongoose.connect(url,{useNewUrlParser: true, useUnifiedTopology: true})
+console.log(url);
+
+mongoose.connect(url,{useNewUrlParser: true})
 .then((res)=> console.log(">>>>>DB connected"))
 .catch((err)=> console.error("Connect fail", err));
 
