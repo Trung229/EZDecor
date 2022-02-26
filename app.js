@@ -16,7 +16,7 @@ const url = `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWOR
 
 console.log(url);
 
-mongoose.connect(process.env.MONGODB,{useNewUrlParser: true})
+mongoose.connect(url,{useNewUrlParser: true})
 .then((res)=> console.log(">>>>>DB connected"))
 .catch((err)=> console.error("Connect fail", err));
 
