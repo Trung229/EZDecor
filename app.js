@@ -12,12 +12,10 @@ var mainRouter = require('./routes/main');
 const mongoose = require('mongoose');
 
 
-const url = `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOSTNAME}:${process.env.MONGO_PORT}/${process.env.MONGO_DB}?authSource=admin`;
-const url2 = `mongodb://${process.env.MONGO_HOSTNAME}:${process.env.MONGO_PORT}/${process.env.MONGO_DB}`;
 
-console.log(url2);
+console.log(process.env.MONGODB);
 
-mongoose.connect(url2,{useNewUrlParser: true})
+mongoose.connect(process.env.MONGODB,{useNewUrlParser: true})
 .then((res)=> console.log(">>>>>DB connected"))
 .catch((err)=> console.error("Connect fail", err));
 
