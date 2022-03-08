@@ -72,4 +72,24 @@ router.post('/register', async function (req, res) {
     }
 })
 
+router.post('/login', async function (req, res) {
+    const {email, password} = req.body;
+    const check = await userController.mobileLogin(email, password);
+    if(check){
+        res.json({
+            payload:{
+                message:"Login Success",
+                status:true
+            }
+        });
+    }else{
+        res.json({
+            payload:{
+                message:"Login failed, Maybe password wrong, please try again !!",
+                status:false
+            }
+        });
+    }
+})
+
 module.exports = router;

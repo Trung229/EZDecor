@@ -68,30 +68,41 @@ exports.checkEmail = async (email) => {
 
 exports.register = async (name, email, password, dob, code, phone) => {
     const checkInAccountAuth = await accountAuth.findOne({ email: email }, "numberAuth");
-    if (code === checkInAccountAuth.numberAuth) {
-        const newUser = new userModel({
-            name: name,
-            email: email || "invalid email",
-            password: password || "invalid password",
-            isAdmin: false,
-            avatar: "https://img.freepik.com/free-vector/flat-creativity-concept-illustration_52683-64279.jpg",
-            token: "invalid token",
-            dob: dob || "06-03-2022",
-            createdAt: new Date(),
-            phone: phone || 036296041,
-            addresses: [],
-            uid: "account doesn't come from third party"
-        });
-        await newUser.save();
-        return {
-            message: "create account is success",
-            status:true
+    if (checkInAccountAuth?.numberAuth) {
+        if (code === checkInAccountAuth.numberAuth) {
+            const newUser = new userModel({
+                name: name,
+                email: email || "invalid email",
+                password: password || "invalid password",
+                isAdmin: false,
+                avatar: "https://img.freepik.com/free-vector/flat-creativity-concept-illustration_52683-64279.jpg",
+                token: "invalid token",
+                dob: dob || "06-03-2022",
+                createdAt: new Date(),
+                phone: phone || 036296041,
+                addresses: [],
+                uid: "account doesn't come from third party"
+            });
+            await newUser.save();
+            return {
+                message: "create account is success",
+                status: true
+            }
+        } else {
+            return {
+                message: "code is wrong",
+                status: false
+            }
         }
     } else {
         return {
-            message: "code is wrong",
+            message: "Expired code",
             status: false
         }
     }
+}
 
+exports.mobileLogIn = async (email, password) => {
+    const user = await userModel.findOne({ email: email }, 'email password');
+        return user;
 }

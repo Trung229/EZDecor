@@ -49,7 +49,7 @@ router.get('/', function (req, res, next) {
   res.render('login', { title: 'Express' });
 });
 
-router.post("/loginWithFacebookMobile", async function (req, res, next){
+router.post("/loginWithThirdParty", async function (req, res, next){
   const data = await userController.loginWithThirdParty(req.body);
   res.json(data);
 })
