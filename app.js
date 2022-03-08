@@ -9,6 +9,9 @@ require('dotenv').config();
 var indexRouter = require('./routes/signIn');
 var usersRouter = require('./routes/users');
 var mainRouter = require('./routes/main');
+var styleRouter = require('./routes/style');
+var categoryRouter = require('./routes/category');
+var mobile = require('./routes/mobile')
 const mongoose = require('mongoose');
 
 
@@ -34,6 +37,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/main', mainRouter);
+app.use('/style', styleRouter);
+app.use('/category', categoryRouter);
+app.use('/mobile', mobile);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

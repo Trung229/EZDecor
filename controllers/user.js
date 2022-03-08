@@ -16,3 +16,18 @@ exports.logIn = async (emailF, passwordF)=>{
     }
     return {id: user._id, email: user.email, status: true, avatar: user.avatar};
 }
+
+exports.loginWithThirdParty = async (data)=>{
+    const check = await userService.loginWithThirdParty(data);
+    return check;
+}
+
+exports.checkEmail =async (email)=>{
+    const check = await userService.checkEmail(email);
+    return check;
+}
+
+exports.register = async (name, email, password, dob, code, phone) =>{
+    const check = await userService.register(name, email, password, dob, code, phone);
+    return check;
+}
