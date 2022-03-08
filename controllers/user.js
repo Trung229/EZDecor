@@ -1,4 +1,5 @@
 const userService = require('../services/user');
+var bcrypt = require('bcryptjs');
 
 exports.logIn = async (emailF, passwordF)=>{
     const user = await userService.logIn(emailF);
@@ -28,6 +29,14 @@ exports.checkEmail =async (email)=>{
 }
 
 exports.register = async (name, email, password, dob, code, phone) =>{
-    const check = await userService.register(name, email, password, dob, code, phone);
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(password,salt);
+    const check = await userService.register(name, email, hash, dob, code, phone);
     return check;
+}
+
+exports.mobileLogin = async (email, password)=>{
+    const user = await userService.mobileLogIn(email, password);
+    const checkPass = await bcrypt.compare(password, user.password);
+    return checkPass;
 }
