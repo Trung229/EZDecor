@@ -5,11 +5,21 @@ const ObjectId = schema.ObjectId;
 
 const userSchema = new schema({
     id:{type:ObjectId},
+    name:{type:String},
     email:{type:String},
     password:{type:String},
     isAdmin:{type:Boolean},
-    createdAt:{type:Date},
     avatar:{type:String},
+    token:{type:String},
+    dob:{type:Date},
+    createdAt:{type:Date},
+    phone:{type:Number},
+    addresses:[
+        {
+            place:{type:String}
+        }
+    ],
+    uid:{type:String},
 })
 
 module.exports = mongoose.model('user',userSchema)
