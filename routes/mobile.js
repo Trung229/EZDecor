@@ -25,10 +25,10 @@ router.post('/createAccount', async function (req, res, next) {
             {
                 viewEngine: {
                     extname: '.handlebars',
-                    partialDir: path.resolve('../ec2Decord/views'),
+                    partialDir: path.resolve('../app/views'),
                     defaultLayout: false
                 },
-                viewPath: path.resolve('../ec2Decord/views'),
+                viewPath: path.resolve('../app/views'),
                 extname: '.handlebars',
 
             }
