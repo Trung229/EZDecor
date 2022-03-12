@@ -1,5 +1,7 @@
 const userService = require('../services/user');
 var bcrypt = require('bcryptjs');
+// const firebase = require('../firebaseConnect');
+
 
 exports.logIn = async (emailF, passwordF)=>{
     const user = await userService.logIn(emailF);
@@ -39,4 +41,8 @@ exports.mobileLogin = async (email, password)=>{
     const user = await userService.mobileLogIn(email, password);
     const checkPass = await bcrypt.compare(password, user.password);
     return checkPass;
+}
+
+exports.test = async (data)=>{
+    // console.log(firebase);
 }
