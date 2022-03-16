@@ -1,4 +1,4 @@
-const inputMoney = document.getElementById("productPrice");
+const inputMoney = document.getElementById("InputProductPrice");
 
 
 inputMoney.addEventListener("keyup", (e) => {

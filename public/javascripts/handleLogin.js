@@ -34,6 +34,7 @@ buttonSignIn.addEventListener('click', async () => {
         localStorage.setItem('token',checkAccount.token);
         localStorage.setItem('email',checkAccount.email);
         localStorage.setItem('avatar',checkAccount.avatar);
+        localStorage.setItem('id',checkAccount.id);
         window.location = `${document.location.origin}/main?userToken=${checkAccount.token}`;
     }else{
         showError.style.display = "block";

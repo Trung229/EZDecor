@@ -399,41 +399,41 @@
                                         </tr>
                                     </tfoot> --}}
                                     <tbody>
-                                        <tr>
-                                            <td>
-                                                <span>Macbook Pro 2021</span>
+                                        {{#each product}}
+                                        <tr id="rowData">
+                                            <td id="containerProductName">
+                                                <span id="productName">{{this.name}}</span>
                                             </td>
-                                            <td><span>$4000</span></td>
+                                            <td id="containerPrice"><span id="productPrice">${{this.price}}</span></td>
                                             <td id="imgCenter">
-                                                <img width="50" height="50"
-                                                    src="https://salt.tikicdn.com/cache/200x200/media/catalog/producttmp/a7/e8/d6/425e40b14b08e19605f9364e146c1879.jpg.webp" />
+                                                <img width="50" height="50" src={{this.thumbnail}} />
                                             </td>
                                             <td>
-                                                <span>27</span>
+                                                <span>{{this.inventory}}</span>
                                             </td>
-                                            <td><span>USA</span></td>
-                                            <td><span>4</span></td>
-                                            <td><span>5</span></td>
-                                            <td><span>11/03/2022</span></td>
-                                            <td><span>Trung Pham</span></td>
+                                            <td><span>{{this.origin}}</span></td>
+                                            <td><span>0</span></td>
+                                            <td><span>{{this.sold}}</span></td>
+                                            <td><span>{{formatDate this.createdAt}}</span></td>
+                                            <td><span id="adminName">{{getNameUser this.admin ../user}}</span></td>
                                             <td class="dropdown mb-4">
 
                                                 <div class="nav-item dropdown">
-                                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
-                                                        role="button" data-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false">
+                                                    <a class="nav-link dropdown-toggle" href="#"
+                                                        id="navbarDropdown" role="button" data-toggle="dropdown"
+                                                        aria-haspopup="true" aria-expanded="false">
                                                         Actions
                                                     </a>
                                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                                        <a class="dropdown-item" href="#">Update</a>
                                                         <a class="dropdown-item" href="#">View Detail</a>
-                                                        <a class="dropdown-item text-danger" href="#">Delete</a>
+                                                        <button id="confirmDelete" onclick="getId('{{this._id}}')" class="dropdown-item text-danger" data-toggle="modal" data-target="#modalDelete">Delete</button>
                                                     </div>
                                                 </div>
                                             </td>
                                         </tr>
 
 
+                                        {{/each}}
 
                                     </tbody>
                                 </table>
@@ -446,10 +446,20 @@
 
             </div>
             <!-- End of Main Content -->
-
             <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
+                <div id="sharkTank"
+                    style="top:0; bottom: 0; left: 0; right: 0; position: absolute; display: flex; justify-content: center; z-index: 20; align-items: center; display:none">
+                    <img src="https://i.pinimg.com/originals/5a/c6/1c/5ac61cf4028d6da14546c08370fb9f81.gif"
+                        style="width:50px;height:50px;" />
+                </div>
+                <div id="alertSuccess" class="alert alert-success">
+                    Add Product success
+                </div>
+                <div id="alertDanger" class="alert alert-danger">
+                    This is a danger alert—check it out!
+                </div>
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -459,17 +469,18 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form>
+                            <form enctype="multipart/form-data">containerProductName
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Product Name</label>
-                                    <input type="text" class="form-control" id="productName" placeholder="Product Name">
+                                    <input type="text" class="form-control" id="InputProductName"
+                                        placeholder="Product Name">
                                 </div>
                                 <label for="exampleInputEmail1">Product Price</label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">$</span>
                                     </div>
-                                    <input id="productPrice" type="text" class="form-control"
+                                    <input id="InputProductPrice" type="text" class="form-control"
                                         aria-label="Amount (to the nearest dollar)">
                                 </div>
                                 <label for="exampleInputEmail1">Product Thumbnail</label>
@@ -479,6 +490,7 @@
                                         <label class="custom-file-label" for="inputThumbnail">Choose file</label>
                                     </div>
                                 </div>
+                                <img id="imgThumbnail" style="width:50px; height:50px; display:none" />
                                 <div class="form-group">
                                     <label for="inputDescription">Description</label>
                                     <textarea class="form-control" id="inputDescription" rows="3"></textarea>
@@ -488,6 +500,7 @@
                                     <input type="number" class="form-control" id="productNumber"
                                         placeholder="Product Number">
                                 </div>
+
                                 <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Origin</label>
                                 <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" size="3">
                                     <option value="1">VN</option>
@@ -515,7 +528,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
+                            <button id="buttonSubmitForm" type="button" class="btn btn-primary">Save changes</button>
                         </div>
                     </div>
                 </div>
@@ -555,7 +568,28 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a id="confirm" class="btn btn-primary">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Bạn Có Chắc Chắn Xóa không !!!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Khi bạn bấm vào yes, dữ liệu sẽ được xóa khỏi hệ thống và không thể khôi phục lại được
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="deleteButton" type="button" class="btn btn-primary btn-danger">Delete</button>
                 </div>
             </div>
         </div>
@@ -579,5 +613,7 @@
 
     <!--Add Commas-->
     <script src="/javascripts/handleAddCommas.js"></script>
+    <!--Product-->
+    <script src="/javascripts/product.js"></script>
 
 </body>

@@ -59,7 +59,7 @@ router.post('/',async function (req, res, next) {
   const check = await userController.logIn(email,password);
   if(check.status){
     const token = jwt.sign({email, password, avatar: check.avatar}, process.env.ACCESS_TOKEN, {expiresIn: '1h'});
-    res.json({status:check.status, token, avatar: check.avatar, email: check.email});
+    res.json({id:check.id, status:check.status, token, avatar: check.avatar, email: check.email});
   }else{
     res.json({payload:check});
   }
