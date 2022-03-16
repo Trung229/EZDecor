@@ -8,6 +8,10 @@ router.get('/', async function (req, res, next) {
     res.send('respond with a resource');
 });
 
+router.get("/category", async function (req, res, next) {
+  res.render("category", { title: "Category" });
+});
+
 router.post('/addCategory', async function (req, res, next) {
     const {name, thumbnail } = req.body;
     const category = await categoryController.addCategory({name, thumbnail})

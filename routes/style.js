@@ -8,6 +8,10 @@ router.get('/', async function (req, res, next) {
     res.send('respond with a resource');
 });
 
+router.get("/style", async function (req, res, next) {
+  res.render("style", { title: "Style" });
+});
+
 router.post('/addStyle', async function (req, res, next) {
     const {name, description, images} = req.body;
     const style = await styleController.addStyle({name, description, images})
