@@ -106,3 +106,7 @@ exports.mobileLogIn = async (email, password) => {
     const user = await userModel.findOne({ email: email }, 'email password');
         return user;
 }
+
+exports.getAllUsers = async () =>{
+    return await userModel.find({},'id name');
+}

@@ -6,7 +6,7 @@ const ObjectId = schema.ObjectId;
 const productSchema = new schema({
     id:{type:ObjectId},
     name:{type:String},
-    price:{type:Number},
+    price:{type:String},
     images:[
         {
             url:{type:String}
@@ -17,11 +17,17 @@ const productSchema = new schema({
     inventory:{type:Number},
     origin:{type:String},
     quality:{type:String},
-    discounts:{type:String},
-    sold:{type:Boolean},
+    discounts:[
+        {
+            value:{type:String}
+        }
+    ],
+    admin:{ type: schema.Types.ObjectId, ref:"user" },
+    sold:{type:Number},
     styleId:{ type: schema.Types.ObjectId, ref:"style" },
-    category:{type: schema.Types.ObjectId, ref:"category"}
-    
+    category:{type: schema.Types.ObjectId, ref:"category"},
+    createdAt:{type: Date}
 })
 
 module.exports = mongoose.model('product',productSchema)
+
