@@ -5,7 +5,7 @@ const categoryController = require('../controllers/category');
 router.get('/', async function (req, res, next) {
     const category = await categoryController.getAll()
     console.log(category)
-    res.send('respond with a resource');
+    res.render('category',{category});
 });
 
 router.post('/addCategory', async function (req, res, next) {
