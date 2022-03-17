@@ -381,22 +381,21 @@
                                         <tr>
                                             <th>Name</th>
                                             <th>Description</th>
-                                            <th>Creator</th>
                                             <th>Created at</th>
                                             <th>Image</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        {{#each style}}
                                         <tr id="rowData">
                                             <td id="containerProductName">
-                                                <span id="productName">Apple MacBook Air M1 2020</span>
+                                                <span id="productName">{{this.name}}</span>
                                             </td>
-                                            <td><span>mô tả để</span></td>
-                                            <td><span>16/03/2022</span></td>
-                                            <td><span id="adminName">Duy Thuận</span></td>
+                                            <td id="styleDescriptionLimit"><span>{{this.description}}</span></td>
+                                            <td><span>{{formatDate this.createdAt}}</span></td>
                                             <td id="imgCenter">
-                                                <img width="100" height="100" src="https://picsum.photos/200" />
+                                                <img width="100" height="100" src={{this.images}} />
                                             </td>
 
                                             <td id="containerActions" class="dropdown mb-4">
@@ -409,14 +408,14 @@
                                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                                         <a class="dropdown-item" href="#">View Detail</a>
                                                         <button id="confirmDelete"
-                                                            onclick="getId('62319a44f33632255284f46b')"
+                                                            onclick="getId('{{this._id}}')"
                                                             class="dropdown-item text-danger" data-toggle="modal"
                                                             data-target="#modalDelete">Delete</button>
                                                     </div>
                                                 </div>
                                             </td>
                                         </tr>
-
+                                        {{/each}}
                                     </tbody>
                                 </table>
                             </div>
@@ -436,6 +435,9 @@
                     <img src="https://i.pinimg.com/originals/5a/c6/1c/5ac61cf4028d6da14546c08370fb9f81.gif"
                         style="width:50px;height:50px;" />
                 </div>
+                <div id="alertSuccess" class="alert alert-success">
+                    Add Style success
+                </div>
 
 
                 <div class="modal-dialog" role="document">
@@ -450,27 +452,27 @@
                             <form enctype="multipart/form-data">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1"> Name</label>
-                                    <input type="text" class="form-control" placeholder=" Name" />
+                                    <input id="styleName" type="text" class="form-control" placeholder=" Name" />
                                 </div>
                                 <div class="form-group">
                                     <label for="inputDescription">Description</label>
-                                    <textarea class="form-control" placeholder=" Description" rows="3"></textarea>
+                                    <textarea id="styleDescription" class="form-control" placeholder=" Description"
+                                        rows="3"></textarea>
                                 </div>
                                 <label for="exampleInputEmail1">Image</label>
                                 <div class="input-group mb-3">
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" />
-                                        <label class="custom-file-label" for="inputThumbnail">File
-                                            Image</label>
+                                        <input type="file" class="custom-file-input" id="inputThumbnail">
+                                        <label class="custom-file-label" for="inputThumbnail">Choose file</label>
                                     </div>
                                 </div>
-                                <img style="width:50px; height:50px; display:none" />
+                                <img id="imgThumbnail" style="width:50px; height:50px; display:none" />
 
                             </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button id="buttonSubmitForm" type="button" class="btn btn-primary">Save changes</button>
+                            <button id="buttonAddStyle" type="button" class="btn btn-primary">Save changes</button>
                         </div>
                     </div>
                 </div>
@@ -559,6 +561,6 @@
     <!--Add Commas-->
     <script src="/javascripts/handleAddCommas.js"></script>
     <!--Product-->
-    <script src="/javascripts/product.js"></script>
+    <script src="/javascripts/style.js"></script>
 
 </body>

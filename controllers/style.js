@@ -5,7 +5,17 @@ exports.getAll = function() {
     return style;
 }
 
-exports.addStyle = function(style) {
-    const message = styleServices.addStyle(style);
+exports.addStyle = async function(data, req) {
+    if (!data.name) return "name is empty";
+    if (!data.description) return "description is empty";
+    const message = styleServices.addStyle({
+        name: data.name,
+        description: data.description,
+        createdAt: Date.now(),
+    }, req);
     return message;
+}
+
+exports.deleteStyle = (id) =>{
+    return styleServices.deleteStyle(id);
 }

@@ -385,23 +385,22 @@
                                         <tr>
                                             <th>Name</th>
                                             <th>Thumbnail</th>
-                                            <th>Creator</th>
                                             <th>Created at</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        {{#each category}}
                                         <tr id="rowData">
                                             <td id="containerProductName">
-                                                <span id="productName">Balo GUBAG</span>
+                                                <span id="productName">{{this.name}}</span>
                                             </td>
                                             <td id="imgCenter">
-                                                <img width="100" height="100" src="https://picsum.photos/200" />
+                                                <img width="100" height="100" src={{this.thumbnail}} />
                                             </td>
 
 
-                                            <td><span>16/03/2022</span></td>
-                                            <td><span id="adminName">Ryan</span></td>
+                                            <td><span>{{formatDate this.createdAt}}</span></td>
                                             <td id="containerActions" class="dropdown mb-4">
 
                                                 <div class="nav-item dropdown">
@@ -413,13 +412,14 @@
                                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                                         <a class="dropdown-item" href="#">View Detail</a>
                                                         <button id="confirmDelete"
-                                                            onclick="getId('6231997f80489246a070021f')"
+                                                             onclick="getId('{{this._id}}')"
                                                             class="dropdown-item text-danger" data-toggle="modal"
                                                             data-target="#modalDelete">Delete</button>
                                                     </div>
                                                 </div>
                                             </td>
                                         </tr>
+                                        {{/each}}
                                     </tbody>
                                 </table>
                             </div>
@@ -439,6 +439,9 @@
                     <img src="https://i.pinimg.com/originals/5a/c6/1c/5ac61cf4028d6da14546c08370fb9f81.gif"
                         style="width:50px;height:50px;" />
                 </div>
+                <div id="alertSuccess" class="alert alert-success">
+                    Add Product success
+                </div>
 
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -452,22 +455,21 @@
                             <form enctype="multipart/form-data">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1"> Name</label>
-                                    <input type="text" class="form-control" placeholder=" Name" />
+                                    <input id="categoryName" type="text" class="form-control" placeholder=" Name" />
                                 </div>
                                 <label for="exampleInputEmail1">Thumbnail</label>
                                 <div class="input-group mb-3">
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" />
-                                        <label class="custom-file-label" for="inputThumbnail">
-                                            Thumbnail</label>
+                                        <input type="file" class="custom-file-input" id="inputThumbnail">
+                                        <label class="custom-file-label" for="inputThumbnail">Choose file</label>
                                     </div>
                                 </div>
-                                <img style="width:50px; height:50px; display:none" />
+                                <img id="imgThumbnail" style="width:50px; height:50px; display:none" />
                             </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button id="buttonSubmitForm" type="button" class="btn btn-primary">Save changes</button>
+                            <button id="buttonAddCategory" type="button" class="btn btn-primary">Save changes</button>
                         </div>
                     </div>
                 </div>
@@ -556,7 +558,7 @@
     <!--Add Commas-->
     <script src="/javascripts/handleAddCommas.js"></script>
     <!--Product-->
-    <script src="/javascripts/product.js"></script>
+    <script src="/javascripts/category.js"></script>
     </script>
 
 </body>
