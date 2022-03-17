@@ -5,7 +5,13 @@ exports.getAll = function() {
     return category;
 }
 
-exports.addCategory = function(category) {
-    const message = categoryServices.addCategory(category);
+exports.addCategory = function(data, req) {
+    if (!data.name) return "name is empty";
+    const message = categoryServices.addCategory({
+        name: data.name,
+    }, req);
     return message;
+}
+exports.deleteCategory = (id) =>{
+    return categoryServices.deleteCategory(id);
 }

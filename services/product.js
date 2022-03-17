@@ -1,4 +1,32 @@
+const firebase = require('../db_firebase');
 const productModel = require('../models/product');
+
+async function handleImage(req) {
+    if (!req.file) {
+        return "Error: No files found"
+    }
+    const imageName = req.file;
+    const finalName = "product_"+ Date.now() + "." + imageName.originalname.split(".").pop();
+    const blob = firebase.bucket.file(finalName);
+    return new Promise((resolve, reject) => {
+        const blobWriter = blob.createWriteStream({
+            metadata: {
+                contentType: imageName.mimetype
+            }
+        });
+        blobWriter.on('error', (err) => {
+            reject(err);
+        });
+        blobWriter.on('finish', async () => {
+            await blob.makePublic()
+            req.file.firebaseUr = `https://storage.googleapis.com/${process.env.STORAGE_BUCKET}/${finalName}`
+            resolve(req.file.firebaseUr)
+        });
+        blobWriter.end(req.file.buffer)
+    });
+
+}
+
 
 
 exports.getAll = async () => {
@@ -6,7 +34,7 @@ exports.getAll = async () => {
     return product;
 }
 
-exports.addProduct = async (product) => {
+exports.addProduct = async (product, req) => {
     const isExist = await productModel.findOne({ name: product.name });
     if (isExist) {
         return {
@@ -16,7 +44,8 @@ exports.addProduct = async (product) => {
             }
         }
     }
-    const newProduct = new productModel(product);
+    const url = await handleImage(req)
+    const newProduct = new productModel({...product, thumbnail: url,});
     await newProduct.save();
     return {
         payload: {

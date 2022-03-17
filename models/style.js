@@ -8,6 +8,7 @@ const styleSchema = new schema({
     name:{type:String},
     description:{type:String},
     images:{type:String},
+    createdAt:{type: Date}
 })
 
 module.exports = mongoose.model('style',styleSchema)
