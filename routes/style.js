@@ -5,19 +5,19 @@ const { uploadSingleImage } = require('../middlewares/handleImages');
 /* GET users listing. */
 router.get('/', async function (req, res, next) {
     const style = await styleController.getAll()
-    console.log(style);
-    res.render('style',{style});
+    res.render('style', { style });
+    res.send(category);
 });
 
 router.post('/addStyle', uploadSingleImage.single('thumbnail'), async function (req, res, next) {
-    const style = await styleController.addStyle({...req.body}, req);
+    const style = await styleController.addStyle({ ...req.body }, req);
     res.send(style);
 });
 
 router.post('/deleteStyle', async (req, res, next) => {
-    const {id} = req.body;
+    const { id } = req.body;
     const data = await styleController.deleteStyle(id)
-    res.send({data})
-  })
+    res.send({ data })
+})
 
 module.exports = router;
