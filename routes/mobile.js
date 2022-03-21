@@ -4,6 +4,8 @@ const nodemailer = require('nodemailer');
 const hbs = require('nodemailer-express-handlebars');
 const path = require('path');
 const userController = require('../controllers/user');
+const categoryController = require('../controllers/category');
+const styleController = require('../controllers/style');
 
 
 /* GET users listing. */
@@ -59,7 +61,7 @@ router.post('/createAccount', async function (req, res, next) {
 });
 
 router.post('/register', async function (req, res) {
-    const {name, email, password, dob, code, phone} = req.body;
+    const { name, email, password, dob, code, phone } = req.body;
     if (!name || !email || !password || !dob || !code || !phone) {
         res.json({
             status: false,
@@ -73,23 +75,34 @@ router.post('/register', async function (req, res) {
 })
 
 router.post('/login', async function (req, res) {
-    const {email, password} = req.body;
+    const { email, password } = req.body;
     const check = await userController.mobileLogin(email, password);
-    if(check){
+    if (check) {
         res.json({
-            payload:{
-                message:"Login Success",
-                status:true
+            payload: {
+                message: "Login Success",
+                status: true
             }
         });
-    }else{
+    } else {
         res.json({
-            payload:{
-                message:"Login failed, Maybe password wrong, please try again !!",
-                status:false
+            payload: {
+                message: "Login failed, Maybe password wrong, please try again !!",
+                status: false
             }
         });
     }
 })
+
+router.get('/category', async function (req, res, next) {
+    const category = await categoryController.getAll();
+    res.send({ data: category });
+});
+
+
+router.get('/style', async function (req, res, next) {
+    const style = await styleController.getAll()
+    res.send({ data: style });
+});
 
 module.exports = router;
