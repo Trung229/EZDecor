@@ -9,6 +9,7 @@ router.get('/', async function (req, res, next) {
     res.render('category', { category });
 });
 
+
 router.post('/addCategory', uploadSingleImage.single('thumbnail'), async function (req, res, next) {
     const category = await categoryController.addCategory({ ...req.body }, req)
 });

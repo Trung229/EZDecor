@@ -6,7 +6,6 @@ const { uploadSingleImage } = require('../middlewares/handleImages');
 router.get('/', async function (req, res, next) {
     const style = await styleController.getAll()
     res.render('style', { style });
-    res.send(category);
 });
 
 router.post('/addStyle', uploadSingleImage.single('thumbnail'), async function (req, res, next) {
