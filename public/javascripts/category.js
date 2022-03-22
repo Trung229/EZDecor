@@ -23,7 +23,7 @@ if (inputThumbnail) {
 
 
 if (buttonAddCategory) {
-    buttonAddCategory.addEventListener("click",async () => {
+    buttonAddCategory.addEventListener("click", async () => {
         sharkTank.style.display = "flex";
         let formData = new FormData();
         formData.append("name", categoryName.value)
