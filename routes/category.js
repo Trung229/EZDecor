@@ -22,5 +22,17 @@ router.post('/deleteCategory', async (req, res, next) => {
     res.send({ data })
 })
 
+router.post('/getCategoryDetail', async (req, res, next) => {
+    const { id } = req.body;
+    const data = await categoryController.getCategoryDetail(id)
+    res.send(data);
+})
+
+router.post('/updateCategory', uploadSingleImage.single('thumbnail'), async (req, res, next) => {
+    const category = await categoryController.updateCategoryDetail({ ...req.body }, req)
+    res.send(category);
+})
+
+
 
 module.exports = router;

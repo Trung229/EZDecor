@@ -394,11 +394,16 @@
                                         <tr id="rowData">
                                             <td id="containerProductName">
                                                 <span id="productName">{{this.name}}</span>
-                                            </td>
+                                            </td> 
+                                            {{#if (isValidURL this.thumbnail)}}
                                             <td id="imgCenter">
                                                 <img width="100" height="100" src={{this.thumbnail}} />
                                             </td>
-
+                                            {{else}}
+                                            <td id="imgCenter">
+                                                <img width="100" height="100" src="/images/no_data.png" />
+                                            </td>
+                                            {{/if}}
 
                                             <td><span>{{formatDate this.createdAt}}</span></td>
                                             <td id="containerActions" class="dropdown mb-4">
@@ -406,13 +411,13 @@
                                                 <div class="nav-item dropdown">
                                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
                                                         role="button" data-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false">
+                                                        aria-expanded="false"> 
                                                         Actions
                                                     </a>
                                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                                        <a class="dropdown-item" href="#">View Detail</a>
+                                                        <button id="" onclick="getDataUpdate('{{this._id}}')" class="dropdown-item" data-toggle="modal" data-target="#modalUpdate">Update</button>
                                                         <button id="confirmDelete"
-                                                             onclick="getId('{{this._id}}')"
+                                                            onclick="getId('{{this._id}}')"
                                                             class="dropdown-item text-danger" data-toggle="modal"
                                                             data-target="#modalDelete">Delete</button>
                                                     </div>
@@ -440,7 +445,7 @@
                         style="width:50px;height:50px;" />
                 </div>
                 <div id="alertSuccess" class="alert alert-success">
-                    Add Product success
+                    Add Category success
                 </div>
 
                 <div class="modal-dialog" role="document">
@@ -474,6 +479,47 @@
                     </div>
                 </div>
             </div>
+
+            <div class="modal fade" id="modalUpdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div id="sharkTank_2"
+                    style="top:0; bottom: 0; left: 0; right: 0; position: absolute; display: flex; justify-content: center; z-index: 20; align-items: center; display:none">
+                    <img src="https://i.pinimg.com/originals/5a/c6/1c/5ac61cf4028d6da14546c08370fb9f81.gif"
+                        style="width:50px;height:50px;" />
+                </div>
+                <div id="alertSuccess" class="alert alert-success">
+                    Add Category success
+                </div>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update Product</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+            <label for="inputCategoryNameUpdate">Category Name</label>
+            <input type="text" class="form-control" id="inputCategoryNameUpdate" placeholder="Enter email">
+        </div>
+        <div class="form-group">
+            <label for="inputCategoryNameUpdate">Category Images</label>
+            <div class="custom-file">
+            <input type="file" class="custom-file-input" id="updateInputFile">
+            <label class="custom-file-label" for="updateInputFile">Choose file</label>
+            </div>
+            <div style="width:100%; height:100%; display: flex; align-items: center; justify-content: center; margin-top:10px">
+                <img id="imgUpdate" src="/images/no_data.png"  width="70%" height="70%"  style="background-size: cover";/>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button id="updateButton" type="button" class="btn btn-primary">Update</button>
+      </div>
+    </div>
+  </div>
+</div>
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
@@ -538,6 +584,9 @@
             </div>
         </div>
     </div>
+
+    <!--Modal update -->
+    <!-- Modal -->
 
     <!-- Bootstrap core JavaScript-->
     <script src="/vendor/jquery/jquery.min.js"></script>

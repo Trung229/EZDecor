@@ -72,3 +72,20 @@ exports.deleteCategory = async (id) => {
         }
     }
 }
+
+exports.getCategoryDetail = async (id) => {
+    return await categoryModel.findById(id);
+}
+
+exports.updateCategoryDetail = async (data, req) => {
+    let row = await categoryModel.findById(data.id);
+    row.name = data.name;
+    row.thumbnail = !req.file ? row.thumbnail : await handleImage(req);
+    await row.save();
+    return {
+        payload: {
+            message: "Update success",
+            status: true
+        }
+    }
+}

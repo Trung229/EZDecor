@@ -6,7 +6,7 @@ async function handleImage(req) {
         return "Error: No files found"
     }
     const imageName = req.file;
-    const finalName = "style_"+ Date.now() + "." + imageName.originalname.split(".").pop();
+    const finalName = "style_" + Date.now() + "." + imageName.originalname.split(".").pop();
     const blob = firebase.bucket.file(finalName);
     return new Promise((resolve, reject) => {
         const blobWriter = blob.createWriteStream({
@@ -35,8 +35,8 @@ exports.getAll = async () => {
 
 
 exports.addStyle = async (style, req) => {
-    const isExist = await styleModel.findOne({name:style.name.toLowerCase()});
-    if(isExist) {
+    const isExist = await styleModel.findOne({ name: style.name.toLowerCase() });
+    if (isExist) {
         return {
             payload: {
                 message: "name is exist",
@@ -45,7 +45,7 @@ exports.addStyle = async (style, req) => {
         }
     }
     const url = await handleImage(req)
-    const newStyle = new styleModel({...style, name:style.name.toLowerCase(), images:url});
+    const newStyle = new styleModel({ ...style, images: url });
     await newStyle.save();
     return {
         payload: {
@@ -71,6 +71,24 @@ exports.deleteStyle = async (id) => {
                 message: "Style is not exist",
                 status: false
             }
+        }
+    }
+}
+
+exports.getStyleDetail = async (id) => {
+    return await styleModel.findById(id);
+}
+
+exports.updateStyle = async (data, req) => {
+    let row = await styleModel.findById(data.id);
+    row.name = data.name;
+    row.description = data.description;
+    row.images = !req.file ? row.images : await handleImage(req);
+    await row.save();
+    return {
+        payload: {
+            message: "Update success",
+            status: true
         }
     }
 }

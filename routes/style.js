@@ -19,4 +19,16 @@ router.post('/deleteStyle', async (req, res, next) => {
     res.send({ data })
 })
 
+router.post('/getStyleDetail', async (req, res, next) => {
+    const { id } = req.body;
+    const data = await styleController.getStyleDetail(id)
+    res.send(data);
+})
+
+router.post('/updateStyle', uploadSingleImage.single('images'), async (req, res, next) => {
+    const category = await styleController.updateStyle({ ...req.body }, req)
+    res.send(category);
+})
+
+
 module.exports = router;
