@@ -22,7 +22,6 @@ exports.getCategoryDetail = (id) => {
 
 exports.updateCategoryDetail = async (data, req) => {
     if (!data.name) return "name is empty";
-    if (!data.description) return "description is empty";
     const message = categoryServices.updateCategoryDetail(data, req);
     return message;
 }

@@ -26,6 +26,7 @@ exports.getStyleDetail = (id) => {
 
 exports.updateStyle = async (data, req) => {
     if (!data.name) return "name is empty";
+    if (!data.description) return "description is empty";
     const message = styleServices.updateStyle(data, req);
     return message;
 }
