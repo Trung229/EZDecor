@@ -1,11 +1,11 @@
 const styleServices = require('../services/style');
 
-exports.getAll = function() {
+exports.getAll = function () {
     const style = styleServices.getAll();
     return style;
 }
 
-exports.addStyle = async function(data, req) {
+exports.addStyle = async function (data, req) {
     if (!data.name) return "name is empty";
     if (!data.description) return "description is empty";
     const message = styleServices.addStyle({
@@ -16,6 +16,16 @@ exports.addStyle = async function(data, req) {
     return message;
 }
 
-exports.deleteStyle = (id) =>{
+exports.deleteStyle = (id) => {
     return styleServices.deleteStyle(id);
+}
+
+exports.getStyleDetail = (id) => {
+    return styleServices.getStyleDetail(id);
+}
+
+exports.updateStyle = async (data, req) => {
+    if (!data.name) return "name is empty";
+    const message = styleServices.updateStyle(data, req);
+    return message;
 }

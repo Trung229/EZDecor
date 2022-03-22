@@ -21,25 +21,30 @@ const mongoose = require('mongoose');
 
 
 
-hbs.registerHelper('getNameUser',(data, users, t)=>{
-  return users.find((item)=> item._id.toString() == data.toString()).name;
+hbs.registerHelper('getNameUser', (data, users, t) => {
+  return users.find((item) => item._id.toString() == data.toString()).name;
 })
 
 
-hbs.registerHelper('formatDate', (a,t)=>{
+hbs.registerHelper('formatDate', (a, t) => {
   let date = new Date(a);
   let month = date.getMonth() + 1;
   let year = date.getFullYear();
-  month = month.toString().length == 1? '0'+month:month;
-  let day = date.getDate().toString().length == 1? '0'+ date.getDate().toString():date.getDate().toString();
-  return day + "/"+month+"/"+year;
+  month = month.toString().length == 1 ? '0' + month : month;
+  let day = date.getDate().toString().length == 1 ? '0' + date.getDate().toString() : date.getDate().toString();
+  return day + "/" + month + "/" + year;
+})
+
+hbs.registerHelper('isValidURL', (string, t) => {
+  console.log(string);
+  var res = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+  return (res !== null)
 })
 
 
-
-mongoose.connect(process.env.MONGODB,{useNewUrlParser: true})
-.then((res)=> console.log(">>>>>DB connected"))
-.catch((err)=> console.error("Connect fail", err));
+mongoose.connect(process.env.MONGODB, { useNewUrlParser: true })
+  .then((res) => console.log(">>>>>DB connected"))
+  .catch((err) => console.error("Connect fail", err));
 
 const app = express();
 
@@ -62,7 +67,7 @@ app.use('/mobile', mobile);
 app.use('/product', product);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
@@ -70,7 +75,7 @@ app.use(function(req, res, next) {
 
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
