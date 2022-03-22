@@ -7,7 +7,7 @@ let socket = require('../socket.io');
 
 
 
-router.get('/',async function (req, res, next) {
+router.get('/', async function (req, res, next) {
   const product = await productController.getAll();
   const user = await userController.getAllUsers();
   res.render('product', {
@@ -31,10 +31,16 @@ router.post('/addProduct', uploadSingleImage.single('thumbnail'), async function
 });
 
 router.post('/deleteProduct', async (req, res, next) => {
-  const {id} = req.body;
+  const { id } = req.body;
   console.log(id);
   const data = await productController.deleteProduct(id)
-  res.send({data})
+  res.send({ data })
 })
+
+
+router.get('/productDetail', async function (req, res, next) {
+  res.render('productDetail');
+});
+
 
 module.exports = router;
