@@ -9,7 +9,7 @@ const styleController = require('../controllers/style');
 
 
 /* GET users listing. */
-router.post('/createAccount', async function (req, res, next) {
+router.post('/createAccount', async function(req, res, next) {
     const { email } = req.body;
     const check = await userController.checkEmail(email);
     const { payload: { message, status } } = check;
@@ -23,18 +23,16 @@ router.post('/createAccount', async function (req, res, next) {
             }
         });
 
-        transporter.use('compile', hbs(
-            {
-                viewEngine: {
-                    extname: '.handlebars',
-                    partialDir: path.resolve('../app/views'),
-                    defaultLayout: false
-                },
-                viewPath: path.resolve('../app/views'),
+        transporter.use('compile', hbs({
+            viewEngine: {
                 extname: '.handlebars',
+                partialDir: path.resolve('../app/views'),
+                defaultLayout: false
+            },
+            viewPath: path.resolve('../app/views'),
+            extname: '.handlebars',
 
-            }
-        ))
+        }))
 
         var mailOptions = {
             from: 'dtrtr2@gmail.com',
@@ -47,7 +45,7 @@ router.post('/createAccount', async function (req, res, next) {
             }
         };
 
-        transporter.sendMail(mailOptions, function (error, info) {
+        transporter.sendMail(mailOptions, function(error, info) {
             if (error) {
                 console.log(error);
             } else {
@@ -60,23 +58,22 @@ router.post('/createAccount', async function (req, res, next) {
     }
 });
 
-router.post('/register', async function (req, res) {
+router.post('/register', async function(req, res) {
     const { name, email, password, dob, code, phone } = req.body;
     if (!name || !email || !password || !dob || !code || !phone) {
         res.json({
             status: false,
             message: "some fields is empty"
-        }
-        )
+        })
     } else {
         const check = await userController.register(name, email, password, dob, code, phone);
         res.json(check);
     }
 })
 
-router.post('/login', async function (req, res) {
+router.post('/login', async function(req, res) {
     const { email, password } = req.body;
-    const check = await userController.mobileLogin(email, password);
+    const check = await userController.mobileLogin(email, password.toString());
     if (check) {
         res.json({
             payload: {
@@ -94,13 +91,13 @@ router.post('/login', async function (req, res) {
     }
 })
 
-router.get('/category', async function (req, res, next) {
+router.get('/category', async function(req, res, next) {
     const category = await categoryController.getAll();
     res.send({ data: category });
 });
 
 
-router.get('/style', async function (req, res, next) {
+router.get('/style', async function(req, res, next) {
     const style = await styleController.getAll()
     res.send({ data: style });
 });

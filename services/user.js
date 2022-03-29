@@ -1,12 +1,12 @@
 const userModel = require('../models/user');
 const accountAuth = require('../models/accountAuth');
 
-exports.logIn = async (email) => {
+exports.logIn = async(email) => {
     const user = await userModel.findOne({ email: email }, 'id email password avatar');
     return user;
 }
 
-exports.loginWithThirdParty = async (data) => {
+exports.loginWithThirdParty = async(data) => {
     console.log("mydata: ", data);
     const check = await userModel.findOne({ uid: data.res.id });
     if (check) {
@@ -36,7 +36,7 @@ exports.loginWithThirdParty = async (data) => {
     }
 }
 
-exports.checkEmail = async (email) => {
+exports.checkEmail = async(email) => {
     const check = await userModel.findOne({ email: email });
     const checkInAccountAuth = await accountAuth.findOne({ email: email });
     if (!check && !checkInAccountAuth) {
@@ -66,9 +66,9 @@ exports.checkEmail = async (email) => {
     }
 }
 
-exports.register = async (name, email, password, dob, code, phone) => {
+exports.register = async(name, email, password, dob, code, phone) => {
     const checkInAccountAuth = await accountAuth.findOne({ email: email }, "numberAuth");
-    if (checkInAccountAuth?.numberAuth) {
+    if (checkInAccountAuth.numberAuth) {
         if (code === checkInAccountAuth.numberAuth) {
             const newUser = new userModel({
                 name: name,
@@ -102,11 +102,15 @@ exports.register = async (name, email, password, dob, code, phone) => {
     }
 }
 
-exports.mobileLogIn = async (email, password) => {
+exports.mobileLogIn = async(email, password) => {
     const user = await userModel.findOne({ email: email }, 'email password');
+    if (user) {
         return user;
+    } else {
+        return false;
+    }
 }
 
-exports.getAllUsers = async () =>{
-    return await userModel.find({},'id name');
+exports.getAllUsers = async() => {
+    return await userModel.find({}, 'id name');
 }
