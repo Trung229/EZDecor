@@ -21,7 +21,6 @@ td span {
     0% {
         right: 0;
     }
-
     100% {
         right: 20px;
     }
@@ -33,35 +32,35 @@ td span {
     top: 20px;
     right: 0px;
     z-index: 20;
-    display:none;
+    display: none;
     animation-name: showAndHideAlert;
     animation-duration: 2s;
 }
 
-#alertDanger{
+#alertDanger {
     width: 30%;
     position: absolute;
     top: 20px;
     right: 0px;
     z-index: 20;
-    display:none;
+    display: none;
     animation-name: showAndHideAlert;
     animation-duration: 2s;
 }
 
-tr > td > span {
+tr>td>span {
     font-size: 13px;
 }
 
-#containerProductName{
+#containerProductName {
     overflow: hidden;
 }
 
-#adminName{
-    font-size:12px;
+#adminName {
+    font-size: 12px;
 }
 
-#productName{
+#productName {
     display: block;
     width: 100px;
     white-space: nowrap;
@@ -70,35 +69,34 @@ tr > td > span {
     margin-left: 5px;
 }
 
-#styleDescriptionLimit{
+#styleDescriptionLimit {
     overflow: hidden;
-    padding:10px;
+    padding: 10px;
 }
 
-#styleDescriptionLimit span{
+#styleDescriptionLimit span {
     width: 100%;
     height: 100%;
-    margin-left:3px;
+    margin-left: 3px;
     overflow: scroll;
 }
 
-
-#productPrice{
-    text-align:left;
-    width:100%;
-    margin-left:10px;
+#productPrice {
+    text-align: left;
+    width: 100%;
+    margin-left: 10px;
 }
 
-tr th{
-    text-align:center;
+tr th {
+    text-align: center;
 }
 
-#containerActions{
+#containerActions {
     position: relative;
 }
 
-#containerActions > div {
-    position:absolute;
+#containerActions>div {
+    position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);

@@ -7,7 +7,6 @@ exports.logIn = async(email) => {
 }
 
 exports.loginWithThirdParty = async(data) => {
-    console.log("mydata: ", data);
     const check = await userModel.findOne({ uid: data.res.id });
     if (check) {
         return {
