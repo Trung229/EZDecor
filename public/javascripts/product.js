@@ -11,19 +11,19 @@ const alertSuccess = document.getElementById("alertSuccess");
 const alertDanger = document.getElementById("alertDanger");
 const deleteButton = document.getElementById("deleteButton");
 const confirmDelete = document.getElementById("confirmDelete");
+const buttonProductDetail = document.querySelectorAll(".buttonProductDetail");
 let storeFile;
 let storeId;
 
 const socket = io();
 
 
-socket.on("deleteProduct",(msg)=>{
-    console.log("message real time ",msg);
+socket.on("deleteProduct", (msg) => {
+    console.log("message real time ", msg);
 })
 
-if(inputThumbnail){
+if (inputThumbnail) {
     inputThumbnail.addEventListener("change", (e) => {
-        console.log("hi");
         const file = e.target.files[0];
         storeFile = file;
         file.preview = URL.createObjectURL(file);
@@ -33,8 +33,8 @@ if(inputThumbnail){
     })
 }
 
-if(buttonSubmitForm){
-    buttonSubmitForm.addEventListener("click", async () => {
+if (buttonSubmitForm) {
+    buttonSubmitForm.addEventListener("click", async() => {
         sharkTank.style.display = "flex";
         const indexValue = inlineFormCustomSelectPref.options.selectedIndex;
         let formData = new FormData();
@@ -46,9 +46,9 @@ if(buttonSubmitForm){
         formData.append("thumbnail", storeFile)
         formData.append("admin", localStorage.getItem("id"))
         const sendData = await fetch(`/product/addProduct`, {
-            method: 'POST',
-            body: formData
-        })
+                method: 'POST',
+                body: formData
+            })
             .then(res => res.json())
             .catch(err => console.error(err));
         if (sendData.payload.status) {
@@ -57,33 +57,44 @@ if(buttonSubmitForm){
             setTimeout(() => {
                 window.location.reload();
             }, 1000);
-        }else{
+        } else {
             sharkTank.style.display = "none";
             window.alert(`${sendData.payload.message}`);
         }
     })
-    
+
 }
 
-if(deleteButton){
-    deleteButton.addEventListener("click", async ()=>{
-        const check = await fetch(`/product/deleteProduct`,{
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({id:storeId})
-        })
-        .then(res=> res.json())
-        .catch(err=> console.log(err));
-        if(check.data.payload.status){
+if (deleteButton) {
+    deleteButton.addEventListener("click", async() => {
+        const check = await fetch(`/product/deleteProduct`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: storeId })
+            })
+            .then(res => res.json())
+            .catch(err => console.log(err));
+        if (check.data.payload.status) {
             window.location.reload();
-        }else{
+        } else {
             alert(check.data.payload.message);
         }
-    })    
+    })
 }
 
-function getId(id){
+function getId(id) {
     storeId = id;
+}
+
+
+
+function getProductId(id) {
+    localStorage.setItem('productId', id);
+    if (buttonProductDetail) {
+        buttonProductDetail.forEach((item) => {
+            item.setAttribute("href", `/product/productDetail/${localStorage?.getItem('productId')}?userToken=${localStorage?.getItem('token')}`);
+        })
+    }
 }
