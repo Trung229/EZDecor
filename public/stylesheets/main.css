@@ -106,3 +106,12 @@ tr th {
     -o-transform: translate(-50%, -50%);
     z-index: 10;
 }
+
+.editAble:hover {
+    opacity: .5;
+    transition: all .1s;
+    -webkit-transition: all .1s;
+    -moz-transition: all .1s;
+    -ms-transition: all .1s;
+    -o-transition: all .1s;
+}
