@@ -7,8 +7,19 @@ const dataCheckbox = document.querySelectorAll(".data-checkbox");
 const updateStyle = document.getElementById("updateStyleButton");
 const dataCheckboxStyle = document.querySelectorAll(".data-checkboxStyle");
 const sharkTank = document.getElementById("sharkTank");
+const productNameUpdate = document.getElementById("productDetailName");
+const productPrice = document.getElementById("InputProductPrice");
+const productDetailFileImage = document.getElementById("productDetailFileImage");
+const productDetailURLimage = document.getElementById("productDetailURLimage");
+const productDetailDescription = document.getElementById("productDetailDescription");
+const productDetailInventory = document.getElementById("productDetailInventory");
+const updateAllInfo = document.getElementById("updateAllInfo");
+const sharkTank2 = document.getElementById("sharkTank2");
+
 
 let storeFile;
+
+console.log("hi");
 
 if (activeImages) {
     activeImages.classList.add("active");
@@ -138,4 +149,41 @@ updateStyle.addEventListener("click", () => {
             window.location.reload();
         })
         .catch(err => console.error(err))
+})
+
+
+if (productDetailFileImage) {
+    productDetailFileImage.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        storeFile = file;
+        file.preview = URL.createObjectURL(file);
+        productDetailURLimage.style.display = "block";
+        productDetailURLimage.setAttribute("src", file.preview);
+        productDetailFileImage.setAttribute("value", file.preview)
+    })
+}
+
+updateAllInfo.addEventListener("click", async() => {
+
+    sharkTank2.style.display = "flex";
+    let formData = new FormData();
+    formData.append("name", productNameUpdate.value)
+    formData.append("thumbnail", storeFile);
+    formData.append("price", productPrice.value);
+    formData.append("description", productDetailDescription.value)
+    formData.append("inventory", productDetailInventory.value)
+    formData.append("id", localStorage.getItem("productId"))
+    const sendData = await fetch(`/product/updateProduct`, {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.json())
+        .catch(err => console.error(err));
+    if (sendData.payload.status) {
+        sharkTank2.style.display = "none";
+        window.location.reload();
+    } else {
+        sharkTank2.style.display = "none";
+        window.alert(`${sendData.payload.message}`);
+    }
 })

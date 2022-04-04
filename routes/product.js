@@ -45,7 +45,8 @@ router.get('/productDetail/:id', async function(req, res, next) {
     const category = product.category ? product.category : [];
     const style = product.styleId ? product.styleId : [];
     const allCategory = await categoryController.getAll();
-    const allStyle = await styleController.getAll()
+    const allStyle = await styleController.getAll();
+    console.log(product);
     res.render('productDetail', { product, images, category, allCategory, style, allStyle });
 });
 
@@ -69,5 +70,31 @@ router.post('/updateStyle', async function(req, res, next) {
     const result = await productController.updateStyle(id, styleId);
     res.send({ result });
 })
+
+router.post('/deleteImages', async(req, res, next) => {
+    const { imageName } = req.body;
+    const result = await productController.deleteImages(imageName);
+    res.send({ ok: "ok" });
+})
+
+router.post('/updateProduct', uploadSingleImage.single('thumbnail'), async(req, res, next) => {
+    const product = await productController.updateProduct({...req.body }, req)
+    res.send(product);
+})
+
+
+router.post('/getProductOnCategory', async(req, res, next) => {
+    const { categoryId } = req.body;
+    const product = await productController.getProductOnCategory(categoryId);
+    res.send(product);
+})
+
+
+router.post('/getProductOnStyles', async(req, res, next) => {
+    const { styleID } = req.body;
+    const product = await productController.getProductOnStyles(styleID);
+    res.send(product);
+})
+
 
 module.exports = router;

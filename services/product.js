@@ -28,6 +28,9 @@ async function handleImage(req) {
 }
 
 
+async function deleteImagesOnFireBase(imageName) {
+    await firebase.bucket.file(imageName).delete();
+}
 
 async function handleArrImages(req) {
     if (!req) {
@@ -139,7 +142,6 @@ exports.updateImagesProduct = async(id, req) => {
 }
 
 exports.updateCategories = async(id, category) => {
-    console.log(id);
     const product = await productModel.findById(id.toString());
     if (!product) {
         return {
@@ -176,6 +178,92 @@ exports.updateStyle = async(id, styleId) => {
             payload: {
                 message: "Updating style is success",
                 status: true,
+            }
+        };
+    }
+}
+
+exports.deleteImages = async(imagesName) => {
+    deleteImagesOnFireBase(imagesName)
+}
+
+exports.updateProduct = async(product, req) => {
+    const row = await productModel.findById(product.id.toString());
+    if (!row) {
+        return {
+            payload: {
+                message: "product is not exist",
+                status: false,
+            }
+        }
+    } else {
+        row.name = product ? product.name : row.name;
+        row.price = product ? product.price : row.price;
+        row.thumbnail = !req.file ? row.thumbnail : await handleImage(req);
+        row.description = product ? product.description : row.description;
+        row.inventory = product ? product.inventory : row.inventory;
+        await row.save();
+        return {
+            payload: {
+                message: "Updating is success",
+                status: true,
+            }
+        };
+    }
+}
+
+exports.getProductOnCategory = async function(categoryId) {
+    if (categoryId) {
+        const product = await productModel.find();
+        const productWithCategoryId = product.filter((item) => {
+            const check = item.category.some((itemInSome) => {
+                return itemInSome._id.toString() === categoryId
+            })
+            if (check) {
+                return item;
+            }
+        })
+        return {
+            payload: {
+                message: "get success",
+                status: true,
+                data: productWithCategoryId
+            }
+        };
+    } else {
+        return {
+            payload: {
+                message: "Category is required",
+                status: false,
+            }
+        };
+    }
+}
+
+
+exports.getProductOnStyles = async function(stylesId) {
+    if (stylesId) {
+        const product = await productModel.find();
+        const productWithStylesId = product.filter((item) => {
+            const check = item.styleId.some((itemInSome) => {
+                return itemInSome._id.toString() === stylesId
+            })
+            if (check) {
+                return item;
+            }
+        })
+        return {
+            payload: {
+                message: "get success",
+                status: true,
+                data: productWithStylesId
+            }
+        };
+    } else {
+        return {
+            payload: {
+                message: "styles is required",
+                status: false,
             }
         };
     }

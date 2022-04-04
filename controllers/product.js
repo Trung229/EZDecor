@@ -55,3 +55,22 @@ exports.updateStyle = async(id, styleId) => {
     const message = await productServices.updateStyle(id, styleId);
     return message;
 }
+
+exports.deleteImages = async(imagesName) => {
+    const message = await productServices.deleteImages(imagesName);
+}
+
+exports.updateProduct = async(product, req) => {
+    const message = await productServices.updateProduct(product, req);
+    return message;
+}
+
+exports.getProductOnCategory = async(categoryId) => {
+    const message = await productServices.getProductOnCategory(categoryId);
+    return message;
+}
+
+exports.getProductOnStyles = async(stylesId) => {
+    const message = await productServices.getProductOnStyles(stylesId);
+    return message;
+}

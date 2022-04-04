@@ -829,6 +829,15 @@
 
 <!-- Modal update All-->
 <div class="modal fade" id="updateAllData" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div
+          id="sharkTank2"
+          style="top:0; bottom: 0; left: 0; right: 0; position: absolute; display: flex; justify-content: center; z-index: 20; align-items: center; display:none"
+        >
+          <img
+            src="https://i.pinimg.com/originals/5a/c6/1c/5ac61cf4028d6da14546c08370fb9f81.gif"
+            style="width:50px;height:50px;"
+          />
+        </div>
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -838,10 +847,10 @@
         </button>
       </div>
       <div class="modal-body">
-        <form?>
+        <form>
           <div class="form-group">
-          <label for="exampleFormControlInput1">Product Name</label>
-          <input type="email" class="form-control" id="exampleFormControlInput1" value="something"/>
+          <label for="productDetailName">Product Name</label>
+          <input type="text" class="form-control" id="productDetailName" value="{{product.name}}"/>
         </div>
         <label for="exampleInputEmail1">Product Price</label>
           <div class="input-group mb-3">
@@ -849,30 +858,30 @@
                   <span class="input-group-text">$</span>
               </div>
               <input id="InputProductPrice" type="text" class="form-control"
-                  aria-label="Amount (to the nearest dollar)">
+                  aria-label="Amount (to the nearest dollar)" value="{{product.price}}">
           </div>
           <label for="exampleInputEmail1">Product Thumbnail</label>
             <div class="input-group mb-3">
             <div class="custom-file">
-            <input type="file" class="custom-file-input" id="inputThumbnail">
-            <label class="custom-file-label" for="inputThumbnail">Choose file</label>
+            <input type="file" class="custom-file-input" id="productDetailFileImage">
+            <label class="custom-file-label" for="productDetailFileImage">Choose file</label>
             </div>
             </div>
-            <img id="imgThumbnail" style="width:50px; height:50px; display:none" />
+            <img id="productDetailURLimage" style="width:50px; height:50px;" src="{{product.thumbnail}}"/>
             <div class="form-group">
-            <label for="inputDescription">Description</label>
-            <textarea class="form-control" id="inputDescription" rows="3"></textarea>
+            <label for="productDetailDescription">Description</label>
+            <textarea class="form-control" id="productDetailDescription" rows="3"/>{{product.description}}</textarea>
             </div>
             <div class="form-group">
              <label for="exampleInputEmail1">Product Number</label>
-             <input type="number" class="form-control" id="productNumber"
-             placeholder="Product Number">
+             <input type="number" class="form-control" id="productDetailInventory"
+             placeholder="Product Number" value="{{product.inventory}}">
              </div>
         </form>      
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button id="updateStyleButton" type="button" class="btn btn-primary">Save changes</button>
+        <button id="updateAllInfo" type="button" class="btn btn-primary">Save changes</button>
       </div>
   </div>
 </div>
@@ -946,5 +955,6 @@
   <!-- Custom scripts for all pages-->
   <script src="/javascripts/sb-admin-2.min.js"></script>
   <script src="/javascripts/productDetail.js"></script>
-
+  <!--Add Commas-->
+  <script src="/javascripts/handleAddCommas.js"></script>
 </body>

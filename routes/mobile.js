@@ -6,6 +6,7 @@ const path = require('path');
 const userController = require('../controllers/user');
 const categoryController = require('../controllers/category');
 const styleController = require('../controllers/style');
+const productController = require('../controllers/product');
 
 
 /* GET users listing. */
@@ -110,5 +111,18 @@ router.get('/style', async function(req, res, next) {
     const style = await styleController.getAll()
     res.send({ data: style });
 });
+
+
+router.post('/productDetail', async function(req, res, next) {
+    const { id } = req.body;
+    const product = await productController.getProductDetail(id);
+    res.send({ product });
+});
+
+router.get('/product', async function(req, res, next) {
+    const product = await productController.getAll();
+    res.send({ product });
+});
+
 
 module.exports = router;
