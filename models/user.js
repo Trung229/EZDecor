@@ -4,22 +4,21 @@ const ObjectId = schema.ObjectId;
 
 
 const userSchema = new schema({
-    id:{type:ObjectId},
-    name:{type:String},
-    email:{type:String},
-    password:{type:String},
-    isAdmin:{type:Boolean},
-    avatar:{type:String},
-    token:{type:String},
-    dob:{type:Date},
-    createdAt:{type:Date},
-    phone:{type:Number},
-    addresses:[
-        {
-            place:{type:String}
-        }
-    ],
-    uid:{type:String},
+    id: { type: ObjectId },
+    name: { type: String },
+    email: { type: String },
+    password: { type: String },
+    isAdmin: { type: Boolean },
+    avatar: { type: String },
+    token: { type: String },
+    dob: { type: Date },
+    createdAt: { type: Date },
+    phone: { type: Number },
+    addresses: [{
+        place: { type: String }
+    }],
+    uid: { type: String },
+    dateActivity: { type: Date },
 })
 
-module.exports = mongoose.model('user',userSchema)
+module.exports = mongoose.model('user', userSchema)
