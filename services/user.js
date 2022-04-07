@@ -1,5 +1,6 @@
 const userModel = require('../models/user');
 const accountAuth = require('../models/accountAuth');
+const moment = require('moment');
 
 exports.logIn = async(email) => {
     const user = await userModel.findOne({ email: email }, 'id email password avatar');
@@ -102,8 +103,10 @@ exports.register = async(name, email, password, dob, code, phone) => {
 }
 
 exports.mobileLogIn = async(email, password) => {
-    const user = await userModel.findOne({ email: email }, 'email password');
+    const user = await userModel.findOne({ email: email });
     if (user) {
+        user.dateActivity = moment().startOf("day").format("MM-DD-YYYY");
+        await user.save();
         return user;
     } else {
         return false;

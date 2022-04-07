@@ -15,6 +15,7 @@ const styleRouter = require('./routes/style');
 const categoryRouter = require('./routes/category');
 const mobile = require('./routes/mobile')
 const product = require('./routes/product')
+const cart = require('./routes/cart');
 const mongoose = require('mongoose');
 
 
@@ -87,7 +88,7 @@ app.use('/style', styleRouter);
 app.use('/category', categoryRouter);
 app.use('/mobile', mobile);
 app.use('/product', product);
-
+app.use("/cart", cart);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     next(createError(404));

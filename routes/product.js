@@ -85,6 +85,7 @@ router.post('/updateProduct', uploadSingleImage.single('thumbnail'), async(req, 
 
 router.post('/getProductOnCategory', async(req, res, next) => {
     const { categoryId } = req.body;
+    console.log(categoryId)
     const product = await productController.getProductOnCategory(categoryId);
     res.send(product);
 })
