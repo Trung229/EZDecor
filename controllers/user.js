@@ -40,11 +40,16 @@ exports.register = async(name, email, password, dob, code, phone) => {
 
 exports.mobileLogin = async(email, password) => {
     const user = await userService.mobileLogIn(email, password);
-    const checkPass = await bcrypt.compare(password, user.password);
-    return {
-        checkPass,
-        data: user
-    };
+    console.log("my user : ", user);
+    if (user.payload.status) {
+        const checkPass = await bcrypt.compare(password, user.payload.data.password);
+        return {
+            checkPass,
+            data: user
+        };
+    } else {
+        return user
+    }
 }
 
 exports.uploadSingleImages = async(req, res) => {
@@ -77,4 +82,8 @@ exports.uploadSingleImages = async(req, res) => {
 
 exports.getAllUsers = async() => {
     return await userService.getAllUsers();
+}
+
+exports.updateAddress = async(email, address) => {
+    return await userService.updateAddress(email, address);
 }

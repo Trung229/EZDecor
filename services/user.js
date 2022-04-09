@@ -107,12 +107,41 @@ exports.mobileLogIn = async(email, password) => {
     if (user) {
         user.dateActivity = moment().startOf("day").format("MM-DD-YYYY");
         await user.save();
-        return user;
+        return {
+            payload: {
+                message: "Login success",
+                data: user,
+                status: true
+            }
+        }
     } else {
-        return false;
+        return {
+            payload: {
+                message: "email is not exist",
+                status: false
+            }
+        }
     }
 }
 
 exports.getAllUsers = async() => {
     return await userModel.find({}, 'id name');
+}
+
+exports.updateAddress = async(email, address) => {
+    const user = await userModel.findOne({ email: email });
+    // if (user) {
+    //     const newArr =
+    //         // user.addresses = myArr;
+    //         // await user.save();
+    //         // return {
+    //         //     message: "Update successful",
+    //         //     status: true
+    //         // }
+    // } else {
+    //     return {
+    //         message: "Email is not exist",
+    //         status: false
+    //     }
+    // }
 }

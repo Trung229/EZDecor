@@ -82,13 +82,13 @@ router.post('/login', async function(req, res) {
                 payload: {
                     message: "Login Success",
                     status: true,
-                    data: check.data
+                    data: check.data.payload.data
                 }
             });
         } else {
             res.json({
                 payload: {
-                    message: "Login failed, Maybe password wrong, please try again !!",
+                    message: "Login failed, Maybe password wrong or email does not match, please try again !!",
                     status: false
                 }
             });
@@ -125,6 +125,13 @@ router.get('/product', async function(req, res, next) {
     const product = await productController.getAll();
     res.send({ product });
 });
+
+
+router.post('/updateAddress', async function(req, res, next) {
+    const { email, address } = req.body;
+    const product = await userController.updateAddress(email, address);
+    res.send({ product });
+})
 
 
 module.exports = router;
