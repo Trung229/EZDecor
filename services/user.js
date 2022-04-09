@@ -68,7 +68,7 @@ exports.checkEmail = async(email) => {
 
 exports.register = async(name, email, password, dob, code, phone) => {
     const checkInAccountAuth = await accountAuth.findOne({ email: email }, "numberAuth");
-    if (checkInAccountAuth.numberAuth) {
+    if (checkInAccountAuth) {
         if (code === checkInAccountAuth.numberAuth) {
             const newUser = new userModel({
                 name: name,

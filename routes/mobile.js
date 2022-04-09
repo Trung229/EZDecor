@@ -74,13 +74,15 @@ router.post('/register', async function(req, res) {
 
 router.post('/login', async function(req, res) {
     const { email, password } = req.body;
+    console.log(email, password)
     if (email) {
         const check = await userController.mobileLogin(email, password.toString());
-        if (check) {
+        if (check.checkPass) {
             res.json({
                 payload: {
                     message: "Login Success",
-                    status: true
+                    status: true,
+                    data: check.data
                 }
             });
         } else {
