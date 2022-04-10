@@ -8,7 +8,6 @@ const categoryController = require('../controllers/category');
 const styleController = require('../controllers/style');
 const productController = require('../controllers/product');
 
-
 /* GET users listing. */
 router.post('/createAccount', async function(req, res, next) {
     const { email } = req.body;
@@ -79,11 +78,8 @@ router.post('/login', async function(req, res) {
         const check = await userController.mobileLogin(email, password.toString());
         if (check.checkPass) {
             res.json({
-                payload: {
-                    message: "Login Success",
-                    status: true,
-                    data: check.data.payload.data
-                }
+                message: "Login Success",
+                data: check.data
             });
         } else {
             res.json({

@@ -56,7 +56,7 @@ exports.updateCart = async(id, data) => {
 }
 
 exports.getAllCart = async(id) => {
-    const cart = await cartModel.find({ _id: id });
+    const cart = await cartModel.find({ customer_id: id });
     return cart;
 }
 

@@ -1,6 +1,7 @@
 const userService = require('../services/user');
 var bcrypt = require('bcryptjs');
 const firebase = require('../db_firebase');
+const cartServices = require('../services/cart');
 require('dotenv').config();
 
 
@@ -40,9 +41,11 @@ exports.register = async(name, email, password, dob, code, phone) => {
 
 exports.mobileLogin = async(email, password) => {
     const user = await userService.mobileLogIn(email, password);
-    console.log("my user : ", user);
     if (user.payload.status) {
-        const checkPass = await bcrypt.compare(password, user.payload.data.password);
+        const checkPass = await bcrypt.compare(password, user.payload.data_user.password);
+        const cart = await cartServices.getAllCart(user.payload.data_user._id.toString())
+        user.cart = cart;
+        console.log("user : ", user);
         return {
             checkPass,
             data: user

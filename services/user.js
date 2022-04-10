@@ -1,9 +1,12 @@
 const userModel = require('../models/user');
 const accountAuth = require('../models/accountAuth');
 const moment = require('moment');
+const cartModel = require('../models/cart');
+
 
 exports.logIn = async(email) => {
-    const user = await userModel.findOne({ email: email }, 'id email password avatar');
+    const user = await userModel.findOne({ email: email });
+    console.log("user when login : ", user);
     return user;
 }
 
@@ -68,56 +71,65 @@ exports.checkEmail = async(email) => {
 
 exports.register = async(name, email, password, dob, code, phone) => {
     const checkInAccountAuth = await accountAuth.findOne({ email: email }, "numberAuth");
-    if (checkInAccountAuth) {
-        if (code === checkInAccountAuth.numberAuth) {
-            const newUser = new userModel({
-                name: name,
-                email: email || "invalid email",
-                password: password || "invalid password",
-                isAdmin: false,
-                avatar: "https://img.freepik.com/free-vector/flat-creativity-concept-illustration_52683-64279.jpg",
-                token: "invalid token",
-                dob: dob || "06-03-2022",
-                createdAt: new Date(),
-                phone: phone || 036296041,
-                addresses: [],
-                uid: "account doesn't come from third party"
-            });
-            await newUser.save();
-            return {
-                message: "create account is success",
-                status: true
+    const user = await userModel.findOne({ email: email });
+    const newCart = new cartModel();
+    if (!user) {
+        if (checkInAccountAuth) {
+            if (code === checkInAccountAuth.numberAuth) {
+                const newUser = new userModel({
+                    name: name,
+                    email: email || "invalid email",
+                    password: password || "invalid password",
+                    isAdmin: false,
+                    avatar: "https://img.freepik.com/free-vector/flat-creativity-concept-illustration_52683-64279.jpg",
+                    token: "invalid token",
+                    dob: dob || "06-03-2022",
+                    createdAt: new Date(),
+                    phone: phone || 036296041,
+                    addresses: [],
+                    uid: "account doesn't come from third party"
+                });
+                newCart.customer_id = newUser._id.toString();
+                await newCart.save();
+                await newUser.save();
+                return {
+                    message: "create account is success",
+                    status: true
+                }
+            } else {
+                return {
+                    message: "code is wrong",
+                    status: false
+                }
             }
         } else {
             return {
-                message: "code is wrong",
+                message: "Expired code",
                 status: false
             }
         }
     } else {
         return {
-            message: "Expired code",
+            message: "Email is taken",
             status: false
         }
     }
 }
 
-exports.mobileLogIn = async(email, password) => {
+exports.mobileLogIn = async(email) => {
     const user = await userModel.findOne({ email: email });
     if (user) {
         user.dateActivity = moment().startOf("day").format("MM-DD-YYYY");
         await user.save();
         return {
             payload: {
-                message: "Login success",
-                data: user,
+                data_user: user,
                 status: true
             }
         }
     } else {
         return {
             payload: {
-                message: "email is not exist",
                 status: false
             }
         }
