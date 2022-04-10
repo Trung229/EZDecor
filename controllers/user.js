@@ -84,6 +84,6 @@ exports.getAllUsers = async() => {
     return await userService.getAllUsers();
 }
 
-exports.updateAddress = async(email, address) => {
-    return await userService.updateAddress(email, address);
+exports.addAddress = async(email, address) => {
+    return await userService.addAddress(email, address);
 }

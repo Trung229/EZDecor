@@ -127,9 +127,9 @@ router.get('/product', async function(req, res, next) {
 });
 
 
-router.post('/updateAddress', async function(req, res, next) {
+router.post('/addAddress', async function(req, res, next) {
     const { email, address } = req.body;
-    const product = await userController.updateAddress(email, address);
+    const product = await userController.addAddress(email, address);
     res.send({ product });
 })
 

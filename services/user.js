@@ -128,20 +128,35 @@ exports.getAllUsers = async() => {
     return await userModel.find({}, 'id name');
 }
 
-exports.updateAddress = async(email, address) => {
+exports.addAddress = async(email, address) => {
     const user = await userModel.findOne({ email: email });
-    // if (user) {
-    //     const newArr =
-    //         // user.addresses = myArr;
-    //         // await user.save();
-    //         // return {
-    //         //     message: "Update successful",
-    //         //     status: true
-    //         // }
-    // } else {
-    //     return {
-    //         message: "Email is not exist",
-    //         status: false
-    //     }
-    // }
+    if (user) {
+        const isExist = await user.addresses.some((item) => {
+            return item.place === address
+        })
+        console.log()
+        if (!isExist && address.length !== 0) {
+            console.log(email)
+            console.log(address)
+            const newArr = [...user.addresses];
+            newArr.push({ "place": address });
+            console.log("newArr", newArr);
+            user.addresses = newArr;
+            await user.save();
+            return {
+                message: "Update successful",
+                status: true
+            }
+        } else {
+            return {
+                message: "address is exist or your address is empty, please check again!!",
+                status: false
+            }
+        }
+    } else {
+        return {
+            message: "Email is not exist",
+            status: false
+        }
+    }
 }
