@@ -26,10 +26,10 @@ router.post('/createAccount', async function(req, res, next) {
         transporter.use('compile', hbs({
             viewEngine: {
                 extname: '.handlebars',
-                partialDir: path.resolve('../app/views/productEmail'),
+                partialDir: path.resolve('../app/views/codeEmail'),
                 defaultLayout: false
             },
-            viewPath: path.resolve('../app/views/productEmail'),
+            viewPath: path.resolve('../app/views/codeEmail'),
             extname: '.handlebars',
 
         }))
