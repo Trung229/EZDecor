@@ -146,9 +146,7 @@ exports.addAddress = async(email, address) => {
             return item.place === address
         })
         if (!isExist && address.length !== 0) {
-            const newArr = [...user.addresses];
-            newArr.push({ "place": address });
-            user.addresses = newArr;
+            user.addresses = address;
             await user.save();
             return {
                 message: "Update successful",
