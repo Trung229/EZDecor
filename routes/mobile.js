@@ -18,8 +18,8 @@ router.post('/createAccount', async function(req, res, next) {
         var transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: 'dtrtr2@gmail.com',
-                pass: '22112015ak'
+                user: process.env.EMAIL,
+                pass: process.env.PASSWORD
             }
         });
 
@@ -35,7 +35,7 @@ router.post('/createAccount', async function(req, res, next) {
         }))
 
         var mailOptions = {
-            from: 'dtrtr2@gmail.com',
+            from: process.env.EMAIL,
             to: email,
             subject: 'MÃ XÁC NHẬN',
             template: 'index',
