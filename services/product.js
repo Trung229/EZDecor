@@ -38,9 +38,7 @@ async function handleArrImages(req) {
     }
     const imageName = req;
     let finalName = "product_" + Date.now() + "." + imageName.originalname;
-    console.log("original name: ", imageName.originalname);
     const blob = firebase.bucket.file(finalName);
-    console.log("1", finalName);
     return new Promise((resolve, reject) => {
         const blobWriter = blob.createWriteStream({
             metadata: {
@@ -52,7 +50,6 @@ async function handleArrImages(req) {
         });
         blobWriter.on('finish', async() => {
             await blob.makePublic()
-            console.log(finalName);
             req.firebaseUr = `https://storage.googleapis.com/${process.env.STORAGE_BUCKET}/${finalName}`
             resolve(req.firebaseUr)
         });

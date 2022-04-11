@@ -26,10 +26,10 @@ router.post('/createAccount', async function(req, res, next) {
         transporter.use('compile', hbs({
             viewEngine: {
                 extname: '.handlebars',
-                partialDir: path.resolve('../app/views'),
+                partialDir: path.resolve('../app/views/productEmail'),
                 defaultLayout: false
             },
-            viewPath: path.resolve('../app/views'),
+            viewPath: path.resolve('../app/views/productEmail'),
             extname: '.handlebars',
 
         }))
@@ -37,7 +37,7 @@ router.post('/createAccount', async function(req, res, next) {
         var mailOptions = {
             from: 'dtrtr2@gmail.com',
             to: email,
-            subject: 'Sending Email using Node.js',
+            subject: 'MÃ XÁC NHẬN',
             template: 'index',
             context: {
                 name: email,

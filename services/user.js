@@ -6,7 +6,6 @@ const cartModel = require('../models/cart');
 
 exports.logIn = async(email) => {
     const user = await userModel.findOne({ email: email });
-    console.log("user when login : ", user);
     return user;
 }
 
@@ -146,13 +145,9 @@ exports.addAddress = async(email, address) => {
         const isExist = await user.addresses.some((item) => {
             return item.place === address
         })
-        console.log()
         if (!isExist && address.length !== 0) {
-            console.log(email)
-            console.log(address)
             const newArr = [...user.addresses];
             newArr.push({ "place": address });
-            console.log("newArr", newArr);
             user.addresses = newArr;
             await user.save();
             return {
@@ -169,6 +164,17 @@ exports.addAddress = async(email, address) => {
         return {
             message: "Email is not exist",
             status: false
+        }
+    }
+}
+
+exports.getDetailUser = async(userID) => {
+    if (userID) {
+        const user = await userModel.findOne({ _id: userID });
+        return user;
+    } else {
+        return {
+            message: "user is not exist"
         }
     }
 }

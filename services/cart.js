@@ -56,8 +56,14 @@ exports.updateCart = async(id, data) => {
 }
 
 exports.getAllCart = async(id) => {
-    const cart = await cartModel.find({ customer_id: id });
-    return cart;
+    if (id) {
+        const cart = await cartModel.find({ customer_id: id });
+        return cart;
+    } else {
+        return {
+            message: "id is "
+        }
+    }
 }
 
 exports.deleteItemInCart = async(id, product_id) => {

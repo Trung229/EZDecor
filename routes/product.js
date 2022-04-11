@@ -22,7 +22,6 @@ router.get('/', async function(req, res, next) {
 router.post('/uploadSingleImage', uploadSingleImage.single('thumbnail'), async function(req, res, next) {
     const store = userController.uploadSingleImages(req, res);
     const message = await store.then((res) => res);
-    console.log("my message ", message);
 });
 
 
@@ -46,7 +45,6 @@ router.get('/productDetail/:id', async function(req, res, next) {
     const style = product.styleId ? product.styleId : [];
     const allCategory = await categoryController.getAll();
     const allStyle = await styleController.getAll();
-    console.log(product);
     res.render('productDetail', { product, images, category, allCategory, style, allStyle });
 });
 
@@ -59,7 +57,6 @@ router.post('/updateImagesProduct', uploadSingleImage.array("images", 20), async
 
 router.post('/updateCategories', async function(req, res, next) {
     const { id, category } = req.body;
-    console.log(id, category);
     const result = await productController.updateCategories(id, category);
     res.send({ result });
 })
@@ -85,7 +82,6 @@ router.post('/updateProduct', uploadSingleImage.single('thumbnail'), async(req, 
 
 router.post('/getProductOnCategory', async(req, res, next) => {
     const { categoryId } = req.body;
-    console.log(categoryId)
     const product = await productController.getProductOnCategory(categoryId);
     res.send(product);
 })

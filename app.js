@@ -16,11 +16,13 @@ const categoryRouter = require('./routes/category');
 const mobile = require('./routes/mobile')
 const product = require('./routes/product')
 const cart = require('./routes/cart');
+const order = require('./routes/order');
 const mongoose = require('mongoose');
 
-
-
-
+hbs.registerHelper('addCommas', (number, t) => {
+    var n = parseInt(number.toString().replace(/\D/g, ''), 10);
+    return n.toLocaleString()
+})
 
 hbs.registerHelper('getNameUser', (data, users, t) => {
     return users.find((item) => item._id.toString() == data.toString()).name;
@@ -65,6 +67,15 @@ hbs.registerHelper("isCheck", (arrProduct, id, t) => {
 })
 
 
+hbs.registerHelper("countLength", (arrProduct, t) => {
+    return arrProduct.length;
+})
+hbs.registerHelper("checkStatus", (status, t) => {
+    console.log(status);
+    return status === "request"
+})
+
+
 mongoose.connect(process.env.MONGODB, { useNewUrlParser: true })
     .then((res) => console.log(">>>>>DB connected"))
     .catch((err) => console.error("Connect fail", err));
@@ -89,6 +100,7 @@ app.use('/category', categoryRouter);
 app.use('/mobile', mobile);
 app.use('/product', product);
 app.use("/cart", cart);
+app.use("/order", order);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     next(createError(404));
