@@ -72,9 +72,9 @@ exports.traffic = async() => {
     const user = await userModel.find();
     const totalTraffic = user.reduce((total, current) => {
         if (current.dateActivity) {
-            const toDay = moment().startOf("day").format("MM-DD-YYYY");
-            const checker = moment(current.dateActivity).format("MM-DD-YYYY")
-            if (toDay === checker) {
+            const toDay = moment().startOf("day").format("MM-DD-YYYY HH:mm:ss");
+            const checker = moment(current.dateActivity).format("MM-DD-YYYY HH:mm:ss")
+            if (toDay === checker || toDay < checker) {
                 return total + 1;
             }
         }
