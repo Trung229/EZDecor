@@ -39,3 +39,7 @@ exports.totalUserDevice = async function() {
     const data = await orderService.totalUserDevice();
     return data;
 }
+exports.getOrderByID = async function(id) {
+    const data = await orderService.getOrderByID(id);
+    return data;
+}

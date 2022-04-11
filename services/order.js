@@ -97,3 +97,24 @@ exports.totalUserDevice = async() => {
     }, 0)
     return totalDevice;
 }
+
+exports.getOrderByID = async(id) => {
+    const order = await orderModel.find({ customer_id: id }, (err, doc) => null).clone().catch(function(err, arr) {
+        if (err) {
+            return {
+                message: 'Wrong format Id',
+                status: false
+            }
+        } else {
+            console.log("my arr: ", arr)
+        }
+    });
+    if (order) {
+        return order;
+    } else {
+        return {
+            message: 'customer does not have any order',
+            status: false
+        }
+    }
+}

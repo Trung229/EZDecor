@@ -110,4 +110,11 @@ router.get('/totalUserDevice', async function(req, res, next) {
     const totalUserDevice = await orderController.totalUserDevice()
     res.send({ totalUserDevice });
 })
+
+router.post('/getOrderByID', async function(req, res, next) {
+    const { id } = req.body;
+    const order = await orderController.getOrderByID(id)
+    res.send({ order });
+})
+
 module.exports = router;
