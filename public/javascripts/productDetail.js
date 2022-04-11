@@ -18,9 +18,6 @@ const sharkTank2 = document.getElementById("sharkTank2");
 
 
 let storeFile;
-
-console.log("hi");
-
 if (activeImages) {
     activeImages.classList.add("active");
 }

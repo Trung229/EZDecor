@@ -45,7 +45,6 @@ exports.mobileLogin = async(email, password) => {
         const checkPass = await bcrypt.compare(password, user.payload.data_user.password);
         const cart = await cartServices.getAllCart(user.payload.data_user._id.toString())
         user.cart = cart;
-        console.log("user : ", user);
         return {
             checkPass,
             data: user
@@ -89,4 +88,8 @@ exports.getAllUsers = async() => {
 
 exports.addAddress = async(email, address) => {
     return await userService.addAddress(email, address);
+}
+
+exports.getDetailUser = async(userId) => {
+    return await userService.getDetailUser(userId);
 }
