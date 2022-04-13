@@ -41,13 +41,17 @@ exports.register = async(name, email, password, dob, code, phone) => {
 
 exports.mobileLogin = async(email, password) => {
     const user = await userService.mobileLogIn(email, password);
-    if (user.payload.status) {
-        const checkPass = await bcrypt.compare(password, user.payload.data_user.password);
-        const cart = await cartServices.getAllCart(user.payload.data_user._id.toString())
-        user.cart = cart;
+    console.log(password);
+    console.log(user.password);
+    if (user) {
+        const checkPass = await bcrypt.compare(password, user.password);
+        const cart = await cartServices.getAllCart(user._id.toString())
         return {
             checkPass,
-            data: user
+            data: {
+                user,
+                cart
+            }
         };
     } else {
         return user

@@ -120,12 +120,7 @@ exports.mobileLogIn = async(email) => {
     if (user) {
         user.dateActivity = moment().startOf("day").format("MM-DD-YYYY");
         await user.save();
-        return {
-            payload: {
-                data_user: user,
-                status: true
-            }
-        }
+        return user
     } else {
         return {
             payload: {

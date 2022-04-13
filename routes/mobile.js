@@ -79,6 +79,7 @@ router.post('/login', async function(req, res) {
         if (check.checkPass) {
             res.json({
                 message: "Login Success",
+                status: true,
                 data: check.data
             });
         } else {

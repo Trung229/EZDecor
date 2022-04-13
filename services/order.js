@@ -3,12 +3,13 @@ const moment = require('moment');
 const userModel = require('../models/user');
 
 exports.createOrder = async(order) => {
-    const newOrder = new orderModel({...order, voucher: 0, status: "request", date: moment(new Date()).format("MM-DD-YYYY HH:mm:ss") });
+    const newOrder = new orderModel({...order, voucher: 0, status: order.isOnlinePayment ? "submitted" : "request", date: moment(new Date()).format("MM-DD-YYYY HH:mm:ss") });
     await newOrder.save();
     return {
         payload: {
             message: "Create order is success",
-            status: true
+            status: true,
+            data: newOrder
         }
     };
 }

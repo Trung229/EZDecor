@@ -319,7 +319,7 @@
                                                 <span id="adminName">{{getNameUser this.customer_id ../user}}</span>
                                             </td>
                                             <td style="overflow-y:scroll">
-                                                <span>{{this.Address}}</span>
+                                                <span style="position:initial">{{this.Address}}</span>
                                             </td>
                                             <td>
                                                 <span>{{this.transportation.name}}</span>
@@ -327,12 +327,12 @@
                                             <td>
                                                 <span>{{this.voucher}}</span>
                                             </td>
-                                            <td><span>$ {{addCommas this.price}}</span></td>
+                                            <td><span style="width:100%; text-align:left; margin-left:20px;">$ {{addCommas this.price}}</span></td>
                                             <td>
-                                                <span>{{this.payment.name}}</span>
+                                                <span>{{convertBooleanPayment this.isOnlinePayment}}</span>
                                             </td>
                                             <td>
-                                                <span>{{this.date}}</span>
+                                                <span style="position:initial">{{this.date}}</span>
                                             </td>
                                             <td>
                                                 <span>{{this.status}}</span>
