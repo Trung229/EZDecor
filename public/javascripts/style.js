@@ -14,6 +14,16 @@ let storeId;
 let storeURLTemp;
 let storeFileUpdate;
 
+var socket = io.connect();
+// console.log(socket);
+// socket.on('UpdateStyle', (msg) => {
+//     console.log("ok")
+// });
+function dispatchEvent() {
+    console.log("ok");
+    socket.on('update', (msg) => console.log(msg));
+}
+dispatchEvent();
 if (inputThumbnail) {
     inputThumbnail.addEventListener("change", (e) => {
         const file = e.target.files[0];
@@ -35,23 +45,23 @@ if (updateInputFile) {
     })
 }
 if (buttonAddStyle) {
-    buttonAddStyle.addEventListener("click", async () => {
+    buttonAddStyle.addEventListener("click", async() => {
         sharkTank.style.display = "flex";
         let formData = new FormData();
         formData.append("name", styleName.value)
         formData.append("description", styleDescription.value)
         formData.append("thumbnail", storeFile);
         const sendData = await fetch(`/style/addStyle`, {
-            method: 'POST',
-            body: formData
-        })
+                method: 'POST',
+                body: formData
+            })
             .then(res => res.json())
             .catch(err => console.error(err));
         if (sendData.payload.status) {
             sharkTank.style.display = "none";
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000);
+            // setTimeout(() => {
+            //     window.location.reload();
+            // }, 1000);
         } else {
             sharkTank.style.display = "none";
             window.alert(`${sendData.payload.message}`);
@@ -65,14 +75,14 @@ function getId(id) {
 }
 
 if (deleteButton) {
-    deleteButton.addEventListener("click", async () => {
+    deleteButton.addEventListener("click", async() => {
         const check = await fetch(`/style/deleteStyle`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ id: storeId })
-        })
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: storeId })
+            })
             .then(res => res.json())
             .catch(err => console.log(err));
         if (check.data.payload.status) {
@@ -91,12 +101,12 @@ function isValidURL(string) {
 async function getDataUpdate(id) {
     storeId = id;
     const data = await fetch("/style/getStyleDetail", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ id })
-    })
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id })
+        })
         .then((res) => res.json())
         .catch((err) => console.error(err));
     inputCategoryNameUpdate.setAttribute("value", data.name)
@@ -110,7 +120,7 @@ async function getDataUpdate(id) {
 }
 
 if (updateButton) {
-    updateButton.addEventListener('click', async () => {
+    updateButton.addEventListener('click', async() => {
         sharkTank_2.style.display = "flex";
         let formData = new FormData();
         formData.append("name", inputCategoryNameUpdate.value)
@@ -118,9 +128,9 @@ if (updateButton) {
         formData.append("id", storeId);
         formData.append("description", inputStyleDescription.value)
         const sendData = await fetch(`/style/updateStyle`, {
-            method: 'POST',
-            body: formData
-        })
+                method: 'POST',
+                body: formData
+            })
             .then(res => res.json())
             .catch(err => console.error(err));
         if (sendData.payload.status) {

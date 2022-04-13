@@ -7,7 +7,7 @@ const nodemailer = require('nodemailer');
 const hbs = require('nodemailer-express-handlebars');
 const path = require('path');
 const moment = require('moment');
-
+var socket = require('../socket.io')
 
 function addCommas(numbers) {
     var n = parseInt(numbers.toString().replace(/\D/g, ''), 10);
