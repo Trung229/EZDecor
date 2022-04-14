@@ -58,6 +58,7 @@ exports.updateStyle = async(id, styleId) => {
 
 exports.deleteImages = async(imagesName) => {
     const message = await productServices.deleteImages(imagesName);
+    return message;
 }
 
 exports.updateProduct = async(product, req) => {

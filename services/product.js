@@ -29,15 +29,26 @@ async function handleImage(req) {
 
 
 async function deleteImagesOnFireBase(imageName) {
-    await firebase.bucket.file(imageName).delete();
+    const imageNameFirebase = imageName.split("/");
+    await firebase.bucket.file(imageNameFirebase[imageNameFirebase.length - 1]).delete();
+}
+async function deleteImagesArrayOnFireBase(imageName) {
+    console.log(imageName);
+    const imageNameFirebase = imageName.split("/");
+    const finalString = `${imageNameFirebase[4]}/${imageNameFirebase[5]}/${imageNameFirebase[6]}`;
+    await firebase.bucket.file(finalString).delete();
 }
 
-async function handleArrImages(req) {
+async function deleteDirectory(name) {
+    await firebase.bucket.deleteFiles({ prefix: `product/${name}` });
+}
+
+async function handleArrImages(req, name) {
     if (!req) {
         return "Error: No files found"
     }
     const imageName = req;
-    let finalName = "product_" + Date.now() + "." + imageName.originalname;
+    let finalName = "product/" + name + "/" + Date.now() + "_" + imageName.originalname;
     const blob = firebase.bucket.file(finalName);
     return new Promise((resolve, reject) => {
         const blobWriter = blob.createWriteStream({
@@ -86,6 +97,9 @@ exports.addProduct = async(product, req) => {
 }
 
 exports.deleteProduct = async(id) => {
+    let row = await productModel.findById(id);
+    await deleteImagesOnFireBase(row.thumbnail);
+    await deleteDirectory(row.name)
     const check = await productModel.deleteOne({ _id: id });
     if (check.deletedCount) {
         return {
@@ -123,8 +137,13 @@ exports.updateImagesProduct = async(id, req) => {
             }
         }
     } else {
+        if (product.images.length > 0) {
+            await Promise.all(product.images.map(async(item) => {
+                await deleteImagesArrayOnFireBase(item.url)
+            }))
+        }
         const images = await Promise.all(req.files.map(async(item) => {
-            const url = await handleArrImages(item)
+            const url = await handleArrImages(item, product.name)
             return { url };
         }))
         product.images = images;
@@ -194,6 +213,7 @@ exports.updateProduct = async(product, req) => {
             }
         }
     } else {
+        await deleteImagesOnFireBase(row.thumbnail);
         row.name = product ? product.name : row.name;
         row.price = product ? product.price : row.price;
         row.thumbnail = !req.file ? row.thumbnail : await handleImage(req);

@@ -13,17 +13,18 @@ let storeFile;
 let storeId;
 let storeURLTemp;
 let storeFileUpdate;
+let storePreviousImage;
 
-var socket = io.connect();
+// var socket = io.connect();
 // console.log(socket);
 // socket.on('UpdateStyle', (msg) => {
 //     console.log("ok")
 // });
-function dispatchEvent() {
-    console.log("ok");
-    socket.on('update', (msg) => console.log(msg));
-}
-dispatchEvent();
+// function dispatchEvent() {
+//     console.log("ok");
+//     socket.on('update', (msg) => console.log(msg));
+// }
+// dispatchEvent();
 if (inputThumbnail) {
     inputThumbnail.addEventListener("change", (e) => {
         const file = e.target.files[0];
@@ -59,9 +60,9 @@ if (buttonAddStyle) {
             .catch(err => console.error(err));
         if (sendData.payload.status) {
             sharkTank.style.display = "none";
-            // setTimeout(() => {
-            //     window.location.reload();
-            // }, 1000);
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
         } else {
             sharkTank.style.display = "none";
             window.alert(`${sendData.payload.message}`);
@@ -114,6 +115,7 @@ async function getDataUpdate(id) {
     if (isValidURL(data.images)) {
         imgUpdate.setAttribute("src", data.images);
         storeURLTemp = data.images;
+        storePreviousImage = imgUpdate.getAttribute("src");
     } else {
         imgUpdate.setAttribute("src", "/images/no_data.png");
     }

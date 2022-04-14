@@ -15,12 +15,6 @@ const buttonProductDetail = document.querySelectorAll(".buttonProductDetail");
 let storeFile;
 let storeId;
 
-const socket = io();
-
-
-socket.on("deleteProduct", (msg) => {
-    console.log("message real time ", msg);
-})
 
 if (inputThumbnail) {
     inputThumbnail.addEventListener("change", (e) => {

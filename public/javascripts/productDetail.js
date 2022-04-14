@@ -40,7 +40,12 @@ sendImages.addEventListener("click", async() => {
             body: formData
         })
         .then((res) => res.json())
+        .then((res) => {
+            console.log(res);
+            return res;
+        })
         .catch(err => console.log(err));
+    console.log(message);
     if (message.result.payload.status) {
         alert(message.result.payload.message);
         sharkTank.style.display = "none";
