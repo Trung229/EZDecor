@@ -19,7 +19,16 @@ exports.getAll = async() => {
     return order;
 }
 exports.updateStatus = async(id) => {
-    const order = await orderModel.findOne({ _id: id });
+    const order = await orderModel.findOne({ _id: id }, (err, doc) => null).clone().catch(function(err, arr) {
+        if (err) {
+            return {
+                message: 'Wrong format Id',
+                status: false
+            }
+        } else {
+            console.log("my arr: ", arr)
+        }
+    });
     if (order) {
         order.status = "submitted";
         await order.save();

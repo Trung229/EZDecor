@@ -63,7 +63,9 @@ exports.addStyle = async(style, req) => {
 
 exports.deleteStyle = async(id) => {
     let row = await styleModel.findById(id);
-    await deleteImagesOnFireBase(row.images);
+    if (row.images !== "Error: No files found") {
+        await deleteImagesOnFireBase(row.images);
+    }
     const check = await styleModel.deleteOne({ _id: id });
     if (check.deletedCount) {
         return {
@@ -88,7 +90,9 @@ exports.getStyleDetail = async(id) => {
 
 exports.updateStyle = async(data, req) => {
     let row = await styleModel.findById(data.id);
-    await deleteImagesOnFireBase(row.images);
+    if (req.file && row.images !== "Error: No files found") {
+        await deleteImagesOnFireBase(row.images);
+    }
     row.name = data.name;
     row.description = data.description;
     row.images = !req.file ? row.images : await handleImage(req);

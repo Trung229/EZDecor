@@ -47,25 +47,30 @@ if (updateInputFile) {
 }
 if (buttonAddStyle) {
     buttonAddStyle.addEventListener("click", async() => {
-        sharkTank.style.display = "flex";
-        let formData = new FormData();
-        formData.append("name", styleName.value)
-        formData.append("description", styleDescription.value)
-        formData.append("thumbnail", storeFile);
-        const sendData = await fetch(`/style/addStyle`, {
-                method: 'POST',
-                body: formData
-            })
-            .then(res => res.json())
-            .catch(err => console.error(err));
-        if (sendData.payload.status) {
-            sharkTank.style.display = "none";
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000);
+        console.log("ok:", styleName.value)
+        if (styleName.value.length === 0 || styleDescription.value.length === 0) {
+            alert("some fields are empty");
         } else {
-            sharkTank.style.display = "none";
-            window.alert(`${sendData.payload.message}`);
+            sharkTank.style.display = "flex";
+            let formData = new FormData();
+            formData.append("name", styleName.value)
+            formData.append("description", styleDescription.value)
+            formData.append("thumbnail", storeFile);
+            const sendData = await fetch(`/style/addStyle`, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(res => res.json())
+                .catch(err => console.error(err));
+            if (sendData.payload.status) {
+                sharkTank.style.display = "none";
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            } else {
+                sharkTank.style.display = "none";
+                window.alert(`${sendData.payload.message}`);
+            }
         }
     })
 }
@@ -123,24 +128,28 @@ async function getDataUpdate(id) {
 
 if (updateButton) {
     updateButton.addEventListener('click', async() => {
-        sharkTank_2.style.display = "flex";
-        let formData = new FormData();
-        formData.append("name", inputCategoryNameUpdate.value)
-        formData.append("images", !storeFileUpdate ? storeURLTemp : storeFileUpdate);
-        formData.append("id", storeId);
-        formData.append("description", inputStyleDescription.value)
-        const sendData = await fetch(`/style/updateStyle`, {
-                method: 'POST',
-                body: formData
-            })
-            .then(res => res.json())
-            .catch(err => console.error(err));
-        if (sendData.payload.status) {
-            sharkTank_2.style.display = "none";
-            window.location.reload();
+        if (inputCategoryNameUpdate.value.length === 0 || inputStyleDescription.value.length === 0) {
+            alert("some fields are empty");
         } else {
-            sharkTank_2.style.display = "none";
-            window.alert(`${sendData.payload.message}`);
+            sharkTank_2.style.display = "flex";
+            let formData = new FormData();
+            formData.append("name", inputCategoryNameUpdate.value)
+            formData.append("images", !storeFileUpdate ? storeURLTemp : storeFileUpdate);
+            formData.append("id", storeId);
+            formData.append("description", inputStyleDescription.value)
+            const sendData = await fetch(`/style/updateStyle`, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(res => res.json())
+                .catch(err => console.error(err));
+            if (sendData.payload.status) {
+                sharkTank_2.style.display = "none";
+                window.location.reload();
+            } else {
+                sharkTank_2.style.display = "none";
+                window.alert(`${sendData.payload.message}`);
+            }
         }
     })
 }

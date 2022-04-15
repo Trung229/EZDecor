@@ -40,26 +40,30 @@ if (updateInputFile) {
 
 
 if (buttonAddCategory) {
-    buttonAddCategory.addEventListener("click", async () => {
-        sharkTank.style.display = "flex";
-        let formData = new FormData();
-        formData.append("name", categoryName.value)
-        formData.append("thumbnail", storeFile);
-        const sendData = await fetch(`/category/addCategory`, {
-            method: 'POST',
-            body: formData
-        })
-            .then(res => res.json())
-            .catch(err => console.error(err));
-        if (sendData.payload.status) {
-            sharkTank.style.display = "none";
-            alertSuccess.style.display = "block";
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000);
+    buttonAddCategory.addEventListener("click", async() => {
+        if (categoryName.value.length === 0) {
+            alert("Please fill category name")
         } else {
-            sharkTank.style.display = "none";
-            window.alert(`${sendData.payload.message}`);
+            sharkTank.style.display = "flex";
+            let formData = new FormData();
+            formData.append("name", categoryName.value)
+            formData.append("thumbnail", storeFile);
+            const sendData = await fetch(`/category/addCategory`, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(res => res.json())
+                .catch(err => console.error(err));
+            if (sendData.payload.status) {
+                sharkTank.style.display = "none";
+                alertSuccess.style.display = "block";
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            } else {
+                sharkTank.style.display = "none";
+                window.alert(`${sendData.payload.message}`);
+            }
         }
     })
 }
@@ -76,12 +80,12 @@ function isValidURL(string) {
 async function getDataUpdate(id) {
     storeId = id;
     const data = await fetch("/category/getCategoryDetail", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ id })
-    })
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id })
+        })
         .then((res) => res.json())
         .catch((err) => console.error(err));
     inputCategoryNameUpdate.setAttribute("value", data.name)
@@ -94,14 +98,14 @@ async function getDataUpdate(id) {
 }
 
 if (deleteButton) {
-    deleteButton.addEventListener("click", async () => {
+    deleteButton.addEventListener("click", async() => {
         const check = await fetch(`/category/deleteCategory`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ id: storeId })
-        })
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: storeId })
+            })
             .then(res => res.json())
             .catch(err => console.log(err));
         if (check.data.payload.status) {
@@ -113,25 +117,29 @@ if (deleteButton) {
 }
 
 if (updateButton) {
-    updateButton.addEventListener('click', async () => {
-        sharkTank_2.style.display = "flex";
-        let formData = new FormData();
-        formData.append("name", inputCategoryNameUpdate.value)
-        formData.append("thumbnail", !storeFileUpdate ? storeURLTemp : storeFileUpdate);
-        formData.append("id", storeId);
-        const sendData = await fetch(`/category/updateCategory`, {
-            method: 'POST',
-            body: formData
-        })
-            .then(res => res.json())
-            .catch(err => console.error(err));
-        if (sendData.payload.status) {
-            sharkTank_2.style.display = "none";
-            alertSuccess.style.display = "block";
-            window.location.reload();
+    updateButton.addEventListener('click', async() => {
+        if (inputCategoryNameUpdate.value.length === 0) {
+            alert(`Please fill category name`);
         } else {
-            sharkTank_2.style.display = "none";
-            window.alert(`${sendData.payload.message}`);
+            sharkTank_2.style.display = "flex";
+            let formData = new FormData();
+            formData.append("name", inputCategoryNameUpdate.value)
+            formData.append("thumbnail", !storeFileUpdate ? storeURLTemp : storeFileUpdate);
+            formData.append("id", storeId);
+            const sendData = await fetch(`/category/updateCategory`, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(res => res.json())
+                .catch(err => console.error(err));
+            if (sendData.payload.status) {
+                sharkTank_2.style.display = "none";
+                alertSuccess.style.display = "block";
+                window.location.reload();
+            } else {
+                sharkTank_2.style.display = "none";
+                window.alert(`${sendData.payload.message}`);
+            }
         }
     })
 }

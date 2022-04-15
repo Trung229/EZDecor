@@ -63,7 +63,7 @@ router.post('/register', async function(req, res) {
     if (!name || !email || !password || !dob || !code || !phone) {
         res.json({
             status: false,
-            message: "some fields is empty"
+            message: "some fields are empty"
         })
     } else {
         const check = await userController.register(name, email, password, dob, code, phone);

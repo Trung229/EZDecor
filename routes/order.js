@@ -62,7 +62,7 @@ router.post('/createOrder', async function(req, res, next) {
 
     if (!Address || !products_id || !transportation || !price || !customer_id || !isOnlinePayment) {
         res.send({
-            message: 'some fields is empty',
+            message: 'some fields are empty',
             status: false
         })
     } else {
@@ -133,7 +133,7 @@ router.post('/create_payment_url', async function(req, res, next) {
     if (!isOnlinePayment) {
         if (!Address || !products_id || !transportation || !price || !customer_id) {
             res.send({
-                message: 'some fields is empty',
+                message: 'some fields are empty',
                 status: false
             })
         } else {

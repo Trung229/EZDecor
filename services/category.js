@@ -62,8 +62,10 @@ exports.addCategory = async(category, req) => {
 }
 
 exports.deleteCategory = async(id) => {
-    let row = await styleModel.findById(id);
-    await deleteImagesOnFireBase(row.thumbnail);
+    let row = await categoryModel.findById(id);
+    if (row.thumbnail !== "Error: No files found") {
+        await deleteImagesOnFireBase(row.thumbnail);
+    }
     const check = await categoryModel.deleteOne({ _id: id });
     if (check.deletedCount) {
         return {
@@ -88,7 +90,9 @@ exports.getCategoryDetail = async(id) => {
 
 exports.updateCategoryDetail = async(data, req) => {
     let row = await categoryModel.findById(data.id);
-    await deleteImagesOnFireBase(row.thumbnail);
+    if (req.file && row.thumbnail !== "Error: No files found") {
+        await deleteImagesOnFireBase(row.thumbnail);
+    }
     row.name = data.name;
     row.thumbnail = !req.file ? row.thumbnail : await handleImage(req);
     await row.save();

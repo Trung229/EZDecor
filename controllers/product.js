@@ -19,7 +19,7 @@ exports.addProduct = async function(data, req) {
         price: data.price,
         image: data.image ? data.image : [],
         description: data.description,
-        inventory: data.inventory,
+        inventory: data.inventory || 0,
         origin: data.origin,
         quality: data.quality ? data.quality : "Good",
         discounts: data.discounts ? data.discounts : [],
