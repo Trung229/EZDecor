@@ -4,12 +4,12 @@ const moment = require('moment');
 const cartModel = require('../models/cart');
 
 
-exports.logIn = async(email) => {
+exports.logIn = async (email) => {
     const user = await userModel.findOne({ email: email });
     return user;
 }
 
-exports.loginWithThirdParty = async(data) => {
+exports.loginWithThirdParty = async (data) => {
     const check = await userModel.findOne({ uid: data.res.id });
     if (check) {
         return {
@@ -38,7 +38,7 @@ exports.loginWithThirdParty = async(data) => {
     }
 }
 
-exports.checkEmail = async(email) => {
+exports.checkEmail = async (email) => {
     const check = await userModel.findOne({ email: email });
     const checkInAccountAuth = await accountAuth.findOne({ email: email });
     if (!check && !checkInAccountAuth) {
@@ -68,7 +68,7 @@ exports.checkEmail = async(email) => {
     }
 }
 
-exports.register = async(name, email, password, dob, code, phone) => {
+exports.register = async (name, email, password, dob, code, phone) => {
     const checkInAccountAuth = await accountAuth.findOne({ email: email }, "numberAuth");
     const user = await userModel.findOne({ email: email });
     const newCart = new cartModel();
@@ -115,8 +115,9 @@ exports.register = async(name, email, password, dob, code, phone) => {
     }
 }
 
-exports.mobileLogIn = async(email) => {
+exports.mobileLogIn = async (email) => {
     const user = await userModel.findOne({ email: email });
+    console.log("user :", user);
     if (user) {
         user.dateActivity = moment().startOf("day").format("MM-DD-YYYY");
         await user.save();
@@ -130,11 +131,11 @@ exports.mobileLogIn = async(email) => {
     }
 }
 
-exports.getAllUsers = async() => {
+exports.getAllUsers = async () => {
     return await userModel.find({}, 'id name');
 }
 
-exports.addAddress = async(email, address) => {
+exports.addAddress = async (email, address) => {
     const user = await userModel.findOne({ email: email });
     if (user) {
         const isExist = await user.addresses.some((item) => {
@@ -161,7 +162,7 @@ exports.addAddress = async(email, address) => {
     }
 }
 
-exports.getDetailUser = async(userID) => {
+exports.getDetailUser = async (userID) => {
     if (userID) {
         const user = await userModel.findOne({ _id: userID });
         return user;
