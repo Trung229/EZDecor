@@ -12,6 +12,7 @@ const alertDanger = document.getElementById("alertDanger");
 const deleteButton = document.getElementById("deleteButton");
 const confirmDelete = document.getElementById("confirmDelete");
 const buttonProductDetail = document.querySelectorAll(".buttonProductDetail");
+const sharkTankInDelete = document.getElementById("sharkTankInDelete");
 let storeFile;
 let storeId;
 
@@ -28,7 +29,7 @@ if (inputThumbnail) {
 }
 
 if (buttonSubmitForm) {
-    buttonSubmitForm.addEventListener("click", async() => {
+    buttonSubmitForm.addEventListener("click", async () => {
         const indexValue = inlineFormCustomSelectPref.options.selectedIndex;
         if (productName.value.length === 0 || productPrice.value.length === 0 || inputDescription.value.length === 0) {
             alert("some fields are empty")
@@ -47,12 +48,11 @@ if (buttonSubmitForm) {
             formData.append("thumbnail", storeFile)
             formData.append("admin", localStorage.getItem("id"))
             const sendData = await fetch(`/product/addProduct`, {
-                    method: 'POST',
-                    body: formData
-                })
+                method: 'POST',
+                body: formData
+            })
                 .then(res => res.json())
                 .catch(err => console.error(err));
-            console.log(sendData);
             if (sendData.payload.status) {
                 sharkTank.style.display = "none";
                 alertSuccess.style.display = "block";
@@ -67,19 +67,20 @@ if (buttonSubmitForm) {
     })
 
 }
-
 if (deleteButton) {
-    deleteButton.addEventListener("click", async() => {
+    deleteButton.addEventListener("click", async () => {
+        sharkTankInDelete.style.display = "flex";
         const check = await fetch(`/product/deleteProduct`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ id: storeId })
-            })
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: storeId })
+        })
             .then(res => res.json())
             .catch(err => console.log(err));
         if (check.data.payload.status) {
+            sharkTankInDelete.style.display = "none";
             window.location.reload();
         } else {
             alert(check.data.payload.message);
