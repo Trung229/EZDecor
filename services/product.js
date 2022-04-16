@@ -17,7 +17,7 @@ async function handleImage(req) {
         blobWriter.on('error', (err) => {
             reject(err);
         });
-        blobWriter.on('finish', async() => {
+        blobWriter.on('finish', async () => {
             await blob.makePublic()
             req.file.firebaseUr = `https://storage.googleapis.com/${process.env.STORAGE_BUCKET}/${finalName}`
             resolve(req.file.firebaseUr)
@@ -59,7 +59,7 @@ async function handleArrImages(req, name) {
         blobWriter.on('error', (err) => {
             reject(err);
         });
-        blobWriter.on('finish', async() => {
+        blobWriter.on('finish', async () => {
             await blob.makePublic()
             req.firebaseUr = `https://storage.googleapis.com/${process.env.STORAGE_BUCKET}/${finalName}`
             resolve(req.firebaseUr)
@@ -70,12 +70,12 @@ async function handleArrImages(req, name) {
 }
 
 
-exports.getAll = async() => {
+exports.getAll = async () => {
     const product = await productModel.find();
     return product;
 }
 
-exports.addProduct = async(product, req) => {
+exports.addProduct = async (product, req) => {
     const isExist = await productModel.findOne({ name: product.name });
     if (isExist) {
         return {
@@ -86,7 +86,7 @@ exports.addProduct = async(product, req) => {
         }
     }
     const url = await handleImage(req)
-    const newProduct = new productModel({...product, thumbnail: url, });
+    const newProduct = new productModel({ ...product, thumbnail: url, });
     await newProduct.save();
     return {
         payload: {
@@ -96,7 +96,7 @@ exports.addProduct = async(product, req) => {
     };
 }
 
-exports.deleteProduct = async(id) => {
+exports.deleteProduct = async (id) => {
     let row = await productModel.findById(id);
     await deleteImagesOnFireBase(row.thumbnail);
     await deleteDirectory(row.name)
@@ -118,7 +118,7 @@ exports.deleteProduct = async(id) => {
     }
 }
 
-exports.getProductDetail = async(id) => {
+exports.getProductDetail = async (id) => {
     const check = await productModel.findById(id);
     if (check) {
         return check
@@ -127,7 +127,7 @@ exports.getProductDetail = async(id) => {
     }
 }
 
-exports.updateImagesProduct = async(id, req) => {
+exports.updateImagesProduct = async (id, req) => {
     const product = await productModel.findById(id.toString());
     if (!product) {
         return {
@@ -138,11 +138,11 @@ exports.updateImagesProduct = async(id, req) => {
         }
     } else {
         if (product.images.length > 0) {
-            await Promise.all(product.images.map(async(item) => {
+            await Promise.all(product.images.map(async (item) => {
                 await deleteImagesArrayOnFireBase(item.url)
             }))
         }
-        const images = await Promise.all(req.files.map(async(item) => {
+        const images = await Promise.all(req.files.map(async (item) => {
             const url = await handleArrImages(item, product.name)
             return { url };
         }))
@@ -157,7 +157,7 @@ exports.updateImagesProduct = async(id, req) => {
     }
 }
 
-exports.updateCategories = async(id, category) => {
+exports.updateCategories = async (id, category) => {
     const product = await productModel.findById(id.toString());
     if (!product) {
         return {
@@ -178,7 +178,7 @@ exports.updateCategories = async(id, category) => {
     }
 }
 
-exports.updateStyle = async(id, styleId) => {
+exports.updateStyle = async (id, styleId) => {
     const product = await productModel.findById(id.toString());
     if (!product) {
         return {
@@ -199,11 +199,11 @@ exports.updateStyle = async(id, styleId) => {
     }
 }
 
-exports.deleteImages = async(imagesName) => {
+exports.deleteImages = async (imagesName) => {
     deleteImagesOnFireBase(imagesName)
 }
 
-exports.updateProduct = async(product, req) => {
+exports.updateProduct = async (product, req) => {
     const row = await productModel.findById(product.id.toString());
     if (!row) {
         return {
@@ -213,7 +213,9 @@ exports.updateProduct = async(product, req) => {
             }
         }
     } else {
-        await deleteImagesOnFireBase(row.thumbnail);
+        if (req.file) {
+            await deleteImagesOnFireBase(row.thumbnail);
+        }
         row.name = product ? product.name : row.name;
         row.price = product ? product.price : row.price;
         row.thumbnail = !req.file ? row.thumbnail : await handleImage(req);
@@ -229,7 +231,7 @@ exports.updateProduct = async(product, req) => {
     }
 }
 
-exports.getProductOnCategory = async function(categoryId) {
+exports.getProductOnCategory = async function (categoryId) {
     if (categoryId) {
         const product = await productModel.find();
         const productWithCategoryId = product.filter((item) => {
@@ -258,7 +260,7 @@ exports.getProductOnCategory = async function(categoryId) {
 }
 
 
-exports.getProductOnStyles = async function(stylesId) {
+exports.getProductOnStyles = async function (stylesId) {
     if (stylesId) {
         const product = await productModel.find();
         const productWithStylesId = product.filter((item) => {

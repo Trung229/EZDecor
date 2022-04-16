@@ -1,9 +1,25 @@
 const orderModel = require('../models/order');
 const moment = require('moment');
 const userModel = require('../models/user');
+const cartModel = require('../models/cart');
 
-exports.createOrder = async(order) => {
-    const newOrder = new orderModel({...order, voucher: 0, status: order.isOnlinePayment ? "submitted" : "request", date: moment(new Date()).format("MM-DD-YYYY HH:mm:ss") });
+exports.createOrder = async (order) => {
+    if (order.isDelete) {
+        const row = await cartModel.findOne({ customer_id: order.customer_id }, (err, doc) => null).clone().catch(function (err, arr) {
+            if (err) {
+                return {
+                    message: 'Wrong format Id',
+                    status: false
+                }
+            } else {
+                console.log("my arr: ", arr)
+            }
+        });
+        row.products_id = [];
+        row.save();
+        console.log("my row:", row);
+    }
+    const newOrder = new orderModel({ ...order, voucher: 0, status: order.isOnlinePayment ? "submitted" : "request", date: moment(new Date()).format("MM-DD-YYYY HH:mm:ss") });
     await newOrder.save();
     return {
         payload: {
@@ -14,12 +30,12 @@ exports.createOrder = async(order) => {
     };
 }
 
-exports.getAll = async() => {
+exports.getAll = async () => {
     const order = await orderModel.find();
     return order;
 }
-exports.updateStatus = async(id) => {
-    const order = await orderModel.findOne({ _id: id }, (err, doc) => null).clone().catch(function(err, arr) {
+exports.updateStatus = async (id) => {
+    const order = await orderModel.findOne({ _id: id }, (err, doc) => null).clone().catch(function (err, arr) {
         if (err) {
             return {
                 message: 'Wrong format Id',
@@ -49,7 +65,7 @@ exports.updateStatus = async(id) => {
     }
 }
 
-exports.static = async() => {
+exports.static = async () => {
     const order = await orderModel.find({ status: "submitted" });
     const month = [01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12];
     const newArr = month.map((item) => {
@@ -66,7 +82,7 @@ exports.static = async() => {
     return newArr;
 }
 
-exports.earnInMonth = async() => {
+exports.earnInMonth = async () => {
     const order = await orderModel.find({ status: "submitted" });
     const thisMonth = moment().startOf('day').month();
     const totalMoney = order.reduce((total, current) => {
@@ -78,7 +94,7 @@ exports.earnInMonth = async() => {
     return totalMoney;
 }
 
-exports.traffic = async() => {
+exports.traffic = async () => {
     const user = await userModel.find();
     const totalTraffic = user.reduce((total, current) => {
         if (current.dateActivity) {
@@ -92,7 +108,7 @@ exports.traffic = async() => {
     }, 0)
     return totalTraffic;
 }
-exports.orderRequest = async() => {
+exports.orderRequest = async () => {
     const order = await orderModel.find({ status: "request" });
     const totalRequest = order.reduce((total, current) => {
         return total + 1;
@@ -100,7 +116,7 @@ exports.orderRequest = async() => {
     return totalRequest;
 }
 
-exports.totalUserDevice = async() => {
+exports.totalUserDevice = async () => {
     const user = await userModel.find({ isAdmin: false });
     const totalDevice = user.reduce((total, current) => {
         return total + 1
@@ -108,8 +124,8 @@ exports.totalUserDevice = async() => {
     return totalDevice;
 }
 
-exports.getOrderByID = async(id) => {
-    const order = await orderModel.find({ customer_id: id }, (err, doc) => null).clone().catch(function(err, arr) {
+exports.getOrderByID = async (id) => {
+    const order = await orderModel.find({ customer_id: id }, (err, doc) => null).clone().catch(function (err, arr) {
         if (err) {
             return {
                 message: 'Wrong format Id',

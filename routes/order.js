@@ -15,6 +15,7 @@ function addCommas(numbers) {
 }
 
 function sendMail(id, user, products, order) {
+    console.log('user');
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -48,7 +49,7 @@ function sendMail(id, user, products, order) {
         }
     };
 
-    transporter.sendMail(mailOptions, function(error, info) {
+    transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
             console.log(error);
         } else {
@@ -57,36 +58,39 @@ function sendMail(id, user, products, order) {
     });
 }
 
-router.post('/createOrder', async function(req, res, next) {
+router.post('/createOrder', async function (req, res, next) {
     const { Address, products_id, transportation, price, customer_id, status, isOnlinePayment } = req.body;
 
-    if (!Address || !products_id || !transportation || !price || !customer_id || !isOnlinePayment) {
+    if (!Address || !products_id || !transportation || !price || !customer_id) {
         res.send({
             message: 'some fields are empty',
             status: false
         })
     } else {
-        const check = await orderController.createOrder({...req.body })
+        const check = await orderController.createOrder({ ...req.body })
         const user = await userController.getDetailUser(check.payload.data.customer_id);
-        const products = await Promise.all(check.payload.data.products_id.map(async(item) => {
+        const products = await Promise.all(check.payload.data.products_id.map(async (item) => {
             return await productController.getProductDetail(item.product_id.toString())
         }));
         sendMail(check.payload.data._id, user, products, check)
-        res.send(check)
+        res.send({
+            message: "Create order is success",
+            status: true,
+        })
     }
 });
 
-router.get('/getList', async function(req, res, next) {
+router.get('/getList', async function (req, res, next) {
     const order = await orderController.getAll()
     const user = await userController.getAllUsers();
     res.render('order', { order, user });
 })
 
-router.post('/updateStatus', async function(req, res, next) {
+router.post('/updateStatus', async function (req, res, next) {
     const { id, user_id } = req.body;
     const order = await orderController.updateStatus(id);
     if (order.payload.status) {
-        const products = await Promise.all(order.payload.data.products_id.map(async(item) => {
+        const products = await Promise.all(order.payload.data.products_id.map(async (item) => {
             return await productController.getProductDetail(item.product_id.toString())
         }));
         const user = await userController.getDetailUser(user_id);
@@ -98,36 +102,36 @@ router.post('/updateStatus', async function(req, res, next) {
 
 })
 
-router.get('/static', async function(req, res, next) {
+router.get('/static', async function (req, res, next) {
     const arrMoney = await orderController.static()
     res.send({ arrMoney });
 })
 
-router.get('/earnInMonth', async function(req, res, next) {
+router.get('/earnInMonth', async function (req, res, next) {
     const arrMoney = await orderController.earnInMonth()
     res.send({ arrMoney });
 })
-router.get('/traffic', async function(req, res, next) {
+router.get('/traffic', async function (req, res, next) {
     const traffic = await orderController.traffic()
     res.send({ traffic });
 })
-router.get('/orderRequest', async function(req, res, next) {
+router.get('/orderRequest', async function (req, res, next) {
     const orderRequest = await orderController.orderRequest()
     res.send({ orderRequest });
 })
-router.get('/totalUserDevice', async function(req, res, next) {
+router.get('/totalUserDevice', async function (req, res, next) {
     const totalUserDevice = await orderController.totalUserDevice()
     res.send({ totalUserDevice });
 })
 
-router.post('/getOrderByID', async function(req, res, next) {
+router.post('/getOrderByID', async function (req, res, next) {
     const { id } = req.body;
     const order = await orderController.getOrderByID(id)
     res.send({ order });
 })
 
 
-router.post('/create_payment_url', async function(req, res, next) {
+router.post('/create_payment_url', async function (req, res, next) {
     const { isOnlinePayment, Address, products_id, transportation, price, customer_id } = req.body;
 
     if (!isOnlinePayment) {
@@ -137,7 +141,7 @@ router.post('/create_payment_url', async function(req, res, next) {
                 status: false
             })
         } else {
-            const check = await orderController.createOrder({...req.body })
+            const check = await orderController.createOrder({ ...req.body })
             res.send(check)
         }
     } else {
@@ -195,7 +199,7 @@ router.post('/create_payment_url', async function(req, res, next) {
 
 });
 
-router.get('/vnpay_return', function(req, res, next) {
+router.get('/vnpay_return', function (req, res, next) {
     var vnp_Params = req.query;
 
     var secureHash = vnp_Params['vnp_SecureHash'];
