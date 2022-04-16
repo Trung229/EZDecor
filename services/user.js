@@ -117,11 +117,15 @@ exports.register = async (name, email, password, dob, code, phone) => {
 
 exports.mobileLogIn = async (email) => {
     const user = await userModel.findOne({ email: email });
-    console.log("user :", user);
     if (user) {
         user.dateActivity = moment().startOf("day").format("MM-DD-YYYY");
         await user.save();
-        return user
+        return {
+            payload: {
+                status: true,
+                data: user
+            }
+        }
     } else {
         return {
             payload: {
