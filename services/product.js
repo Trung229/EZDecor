@@ -214,7 +214,11 @@ exports.updateProduct = async (product, req) => {
         }
     } else {
         if (req.file) {
-            await deleteImagesOnFireBase(row.thumbnail);
+            try {
+                await deleteImagesOnFireBase(row.thumbnail);
+            } catch (e) {
+                console.log(e);
+            }
         }
         row.name = product ? product.name : row.name;
         row.price = product ? product.price : row.price;
