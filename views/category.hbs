@@ -4,14 +4,12 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color:#DDAC8B; background-image:unset">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
-                </div>
-                <div class="sidebar-brand-text mx-3">Furniture <sup>2</sup></div>
+            <a class="sidebar-brand d-flex align-items-center justify-content-center">
+                    <image src="/images/ezlogo.png" width="60" height="60"/>
+                {{!-- <div class="sidebar-brand-text mx-3">Furniture <sup>2</sup></div> --}}
             </a>
 
             <!-- Divider -->
@@ -30,28 +28,28 @@
 
             <li class="nav-item">
                 <a class="nav-link" id="navigate_style">
-                    <i class="fas fa-fw fa-chart-area"></i>
+                    <i class="fas fa-fw fa-th"></i>
                     <span>Style</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
                 <a class="nav-link" id="navigate_category">
-                    <i class="fas fa-fw fa-table"></i>
+                    <i class="fas fa-fw fa-clone"></i>
                     <span>Category</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
                 <a class="nav-link" id="navigate_product">
-                    <i class="fas fa-fw fa-table"></i>
+                    <i class="fas fa-fw fa-box"></i>
                     <span>Product</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
                 <a class="nav-link" id="navigate_order">
-                    <i class="fas fa-fw fa-table"></i>
+                    <i class="fas fa-fw fa-shopping-bag"></i>
                     <span>Orders</span></a>
             </li>
           
@@ -120,7 +118,7 @@
                             </div>
                         </li>
 
-                        <!-- Nav Item - Alerts -->
+                        {{!-- <!-- Nav Item - Alerts -->
                         <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -236,7 +234,7 @@
                                 </a>
                                 <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
                             </div>
-                        </li>
+                        </li> --}}
 
                         <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -278,9 +276,9 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     <!-- Page Heading -->
-                    <a href="#" class="btn btn-primary btn-icon-split mt-1 mb-4" data-toggle="modal"
+                    <a href="#" class="btn btn-primary btn-icon-split mt-1 mb-4" data-toggle="modal" style="background-color:#DDAC8B; border-color:#DDAC8B"
                         data-target="#exampleModal">
-                        <span class="icon text-white-50">
+                        <span class="icon text-white-50" style="display:flex; align-items: center">
                             <i class="fas fa-plus"></i>
                         </span>
                         <span class="text">Add Category</span>
