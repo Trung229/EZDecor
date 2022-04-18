@@ -96,3 +96,7 @@ exports.addAddress = async (email, address) => {
 exports.getDetailUser = async (userId) => {
     return await userService.getDetailUser(userId);
 }
+
+exports.updateInfoUser = async (user) => {
+    return await userService.updateInfoUser(user);
+}

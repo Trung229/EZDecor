@@ -82,7 +82,7 @@ exports.register = async (name, email, password, dob, code, phone) => {
                     isAdmin: false,
                     avatar: "https://img.freepik.com/free-vector/flat-creativity-concept-illustration_52683-64279.jpg",
                     token: "invalid token",
-                    dob: dob || "06-03-2022",
+                    dob: dob || "06/03/2022",
                     createdAt: new Date(),
                     phone: phone || 036296041,
                     addresses: [],
@@ -173,6 +173,35 @@ exports.getDetailUser = async (userID) => {
     } else {
         return {
             message: "user is not exist"
+        }
+    }
+}
+
+
+exports.updateInfoUser = async (data) => {
+    const user = await userModel.findOne({ _id: data.id }, (err, doc) => null).clone().catch(function (err, arr) {
+        if (err) {
+            return {
+                message: 'Wrong format Id',
+                status: false
+            }
+        } else {
+            console.log("my arr: ", arr)
+        }
+    });
+    if (user) {
+        user.name = data.name ? data.name : user.name;
+        user.phone = data.phone ? data.phone : user.phone;
+        user.dob = data.dob ? data.dob : user.dob;
+        user.save();
+        return {
+            message: "update success",
+            status: true
+        }
+    } else {
+        return {
+            message: "user is not exist",
+            status: false
         }
     }
 }
