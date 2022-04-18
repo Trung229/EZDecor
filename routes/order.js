@@ -15,7 +15,7 @@ function addCommas(numbers) {
 }
 
 function sendMail(id, user, products, order) {
-    console.log('user');
+    console.log('user', products);
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -42,7 +42,13 @@ function sendMail(id, user, products, order) {
         context: {
             id: id,
             name: user.name,
-            products: products.map((item) => item.toJSON()),
+            products: products.map((item) => {
+                console.log("item in map", item)
+                return {
+                    data: item.product.toJSON(),
+                    quantity: item.quantity,
+                }
+            }),
             address: order.payload.data.Address,
             price: addCommas(order.payload.data.price),
             date: moment(order.payload.data.date).add(3, "days").format('DD-MM-YYYY')
@@ -70,8 +76,12 @@ router.post('/createOrder', async function (req, res, next) {
         const check = await orderController.createOrder({ ...req.body })
         const user = await userController.getDetailUser(check.payload.data.customer_id);
         const products = await Promise.all(check.payload.data.products_id.map(async (item) => {
-            return await productController.getProductDetail(item.product_id.toString())
+            return {
+                product: await productController.getProductDetail(item.product_id.toString()),
+                quantity: item.quantity
+            }
         }));
+        console.log(products);
         sendMail(check.payload.data._id, user, products, check)
         res.send({
             message: "Create order is success",
@@ -91,7 +101,11 @@ router.post('/updateStatus', async function (req, res, next) {
     const order = await orderController.updateStatus(id);
     if (order.payload.status) {
         const products = await Promise.all(order.payload.data.products_id.map(async (item) => {
-            return await productController.getProductDetail(item.product_id.toString())
+            return {
+                product: await productController.getProductDetail(item.product_id.toString()),
+                quantity: item.quantity
+            }
+
         }));
         const user = await userController.getDetailUser(user_id);
         sendMail(id, user, products, order)
@@ -230,6 +244,12 @@ router.get('/vnpay_return', function (req, res, next) {
         res.render('success', { code: '97' })
     }
 });
+
+router.post("/getDetailOrder", async function (req, res, next) {
+    const { id } = req.body;
+    const order = await orderController.getDetailOrder(id)
+    res.send({ order });
+})
 
 
 function sortObject(obj) {

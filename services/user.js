@@ -181,10 +181,7 @@ exports.getDetailUser = async (userID) => {
 exports.updateInfoUser = async (data) => {
     const user = await userModel.findOne({ _id: data.id }, (err, doc) => null).clone().catch(function (err, arr) {
         if (err) {
-            return {
-                message: 'Wrong format Id',
-                status: false
-            }
+            return false
         } else {
             console.log("my arr: ", arr)
         }
@@ -202,6 +199,46 @@ exports.updateInfoUser = async (data) => {
         return {
             message: "user is not exist",
             status: false
+        }
+    }
+}
+
+
+
+exports.getDetailUserV2 = async (data) => {
+    const user = await userModel.findOne({ _id: data.id }, (err, doc) => null).clone().catch(function (err, arr) {
+        if (err) {
+            return false
+        } else {
+            console.log("my arr: ", arr)
+        }
+    });
+    if (user) {
+        return user
+    } else {
+        return "user is not exist"
+    }
+}
+
+exports.changePassword = async (data) => {
+    const user = await userModel.findOne({ _id: data.id }, (err, doc) => null).clone().catch(function (err, arr) {
+        if (err) {
+            return false
+        } else {
+            console.log("my arr: ", arr)
+        }
+    });
+    if (user) {
+        user.password = data.newPassword ? data.newPassword : user.password;
+        user.save();
+        return {
+            message: "update password is success",
+            status: true
+        }
+    } else {
+        return {
+            message: "user is not exist",
+            status: true
         }
     }
 }

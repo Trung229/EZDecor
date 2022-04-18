@@ -127,8 +127,12 @@
                                             </tr>
                                             {{#each products}}
                                             <tr>
-                                                <td width="75%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;"> {{this.name}} </td>
-                                                <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px; text-align:right"> $ {{this.price}} </td>
+                                                <td width="75%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;"> {{this.data.name}} </td>
+                                                <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px; text-align:right"> $ {{this.data.price}} </td>
+                                                <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px; text-align:right; display:flex; position: absolute;"> 
+                                                    <div>x</div> 
+                                                    <div>{{this.quantity}}</div>
+                                                </td>
                                             </tr>
                                             {{/each}}
                                         </table>

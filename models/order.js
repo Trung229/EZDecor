@@ -8,6 +8,7 @@ const orderSchema = new schema({
     Address: { type: String },
     products_id: [{
         product_id: { type: schema.Types.ObjectId, ref: "product" },
+        quantity: { type: String }
     }],
     transportation: {
         name: { type: String },

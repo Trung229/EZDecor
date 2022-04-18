@@ -4,6 +4,7 @@ const userModel = require('../models/user');
 const cartModel = require('../models/cart');
 
 exports.createOrder = async (order) => {
+    console.log("my order: ", order);
     if (order.isDelete) {
         const row = await cartModel.findOne({ customer_id: order.customer_id }, (err, doc) => null).clone().catch(function (err, arr) {
             if (err) {
@@ -141,6 +142,27 @@ exports.getOrderByID = async (id) => {
         return {
             message: 'customer does not have any order',
             status: false
+        }
+    }
+}
+
+exports.getDetailOrder = async (id) => {
+    const order = await orderModel.findOne({ _id: id }, (err, doc) => null).clone().catch(function (err, arr) {
+        if (err) {
+            return {
+                message: 'Wrong format Id',
+                status: false
+            }
+        } else {
+            console.log("my arr: ", arr)
+        }
+    });
+    if (order) {
+        return order;
+    } else {
+        return {
+            message: 'Wrong order Id',
+            status: true
         }
     }
 }

@@ -41,7 +41,7 @@ exports.register = async (name, email, password, dob, code, phone) => {
 
 exports.mobileLogin = async (email, password) => {
     const user = await userService.mobileLogIn(email, password);
-    console.log("user :", user);
+    console.log("my user", user);
     if (user.payload.status) {
         const checkPass = await bcrypt.compare(password, user.payload.data.password);
         const cart = await cartServices.getAllCart(user.payload.data._id.toString())
@@ -99,4 +99,36 @@ exports.getDetailUser = async (userId) => {
 
 exports.updateInfoUser = async (user) => {
     return await userService.updateInfoUser(user);
+}
+
+exports.changePassword = async (data) => {
+    const user = await userService.getDetailUserV2(data);
+    const checkPass = await bcrypt.compare(data.newPassword, user.password ? user.password : "invalid user");
+    const checkCurrentPass = await bcrypt.compare(data.password, user.password ? user.password : "invalid user");
+    if (checkCurrentPass) {
+        if (checkPass) {
+            return {
+                message: "new password and old password can't be same",
+                status: false,
+            }
+        } else {
+            const salt = await bcrypt.genSalt(10);
+            const hash = await bcrypt.hash(data.newPassword, salt);
+            data.newPassword = hash;
+            const user = await userService.changePassword(data);
+            return user
+        }
+    } else {
+        if (user.password) {
+            return {
+                message: "Current password is incorrect",
+                status: false,
+            }
+        } else {
+            return {
+                message: "user is not exist",
+                status: false,
+            }
+        }
+    }
 }

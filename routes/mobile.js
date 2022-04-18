@@ -136,4 +136,9 @@ router.post('/updateInfoUser', async (req, res, next) => {
 })
 
 
+router.post('/changePassword', async (req, res, next) => {
+    const payload = await userController.changePassword(req.body);
+    res.send({ payload })
+})
+
 module.exports = router;
