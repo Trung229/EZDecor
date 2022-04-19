@@ -37,7 +37,7 @@ function sendMail(id, user, products, order) {
     var mailOptions = {
         from: process.env.EMAIL,
         to: user.email,
-        subject: 'XÁC NHẬN ĐƠN HÀNG',
+        subject: 'ORDER CONFIRMATION',
         template: 'index',
         context: {
             id: id,

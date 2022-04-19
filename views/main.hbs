@@ -26,9 +26,6 @@
           <span>Dashboard</span></a>
       </li>
       <hr class="sidebar-divider" />
-      <div class="sidebar-heading">
-        Item
-      </div>
 
       <li class="nav-item">
         <a class="nav-link" id="navigate_style">
@@ -100,7 +97,11 @@
                 aria-describedby="basic-addon2"
               />
               <div class="input-group-append">
-                <button class="btn btn-primary" type="button">
+                <button
+                  class="btn btn-primary"
+                  type="button"
+                  style="background-color:#DDAC8B; border-color: #DDAC8B"
+                >
                   <i class="fas fa-search fa-sm"></i>
                 </button>
               </div>
@@ -319,7 +320,7 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
-          <!-- Page Heading -->
+          {{! <!-- Page Heading -->
           <div
             class="d-sm-flex align-items-center justify-content-between mb-4"
           >
@@ -329,7 +330,7 @@
               class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
             ><i class="fas fa-download fa-sm text-white-50"></i>
               Generate Report</a>
-          </div>
+          </div> }}
 
           <!-- Content Row -->
           <div class="row">
@@ -688,7 +689,11 @@
             type="button"
             data-dismiss="modal"
           >Cancel</button>
-          <a id="confirm" class="btn btn-primary">Logout</a>
+          <a
+            id="confirm"
+            class="btn btn-primary"
+            style="background-color: #DDAC8B;border-color: #DDAC8B"
+          >Logout</a>
         </div>
       </div>
     </div>

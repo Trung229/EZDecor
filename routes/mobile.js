@@ -37,7 +37,7 @@ router.post('/createAccount', async function (req, res, next) {
         var mailOptions = {
             from: process.env.EMAIL,
             to: email,
-            subject: 'MÃ XÁC NHẬN',
+            subject: `VERIFICATION - [${numberAuth}]`,
             template: 'index',
             context: {
                 name: email,
