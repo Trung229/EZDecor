@@ -4,12 +4,12 @@ const moment = require('moment');
 const cartModel = require('../models/cart');
 
 
-exports.logIn = async(email) => {
+exports.logIn = async (email) => {
     const user = await userModel.findOne({ email: email });
     return user;
 }
 
-exports.loginWithThirdParty = async(data) => {
+exports.loginWithThirdParty = async (data) => {
     const check = await userModel.findOne({ uid: data.res.id });
     if (check) {
         return {
@@ -38,7 +38,7 @@ exports.loginWithThirdParty = async(data) => {
     }
 }
 
-exports.checkEmail = async(email) => {
+exports.checkEmail = async (email) => {
     const check = await userModel.findOne({ email: email });
     const checkInAccountAuth = await accountAuth.findOne({ email: email });
     if (!check && !checkInAccountAuth) {
@@ -68,7 +68,7 @@ exports.checkEmail = async(email) => {
     }
 }
 
-exports.register = async(name, email, password, dob, code, phone) => {
+exports.register = async (name, email, password, dob, code, phone) => {
     const checkInAccountAuth = await accountAuth.findOne({ email: email }, "numberAuth");
     const user = await userModel.findOne({ email: email });
     const newCart = new cartModel();
@@ -82,7 +82,7 @@ exports.register = async(name, email, password, dob, code, phone) => {
                     isAdmin: false,
                     avatar: "https://img.freepik.com/free-vector/flat-creativity-concept-illustration_52683-64279.jpg",
                     token: "invalid token",
-                    dob: dob || "06-03-2022",
+                    dob: dob || "06/03/2022",
                     createdAt: new Date(),
                     phone: phone || 036296041,
                     addresses: [],
@@ -115,15 +115,15 @@ exports.register = async(name, email, password, dob, code, phone) => {
     }
 }
 
-exports.mobileLogIn = async(email) => {
+exports.mobileLogIn = async (email) => {
     const user = await userModel.findOne({ email: email });
     if (user) {
         user.dateActivity = moment().startOf("day").format("MM-DD-YYYY");
         await user.save();
         return {
             payload: {
-                data_user: user,
-                status: true
+                status: true,
+                data: user
             }
         }
     } else {
@@ -135,20 +135,18 @@ exports.mobileLogIn = async(email) => {
     }
 }
 
-exports.getAllUsers = async() => {
+exports.getAllUsers = async () => {
     return await userModel.find({}, 'id name');
 }
 
-exports.addAddress = async(email, address) => {
+exports.addAddress = async (email, address) => {
     const user = await userModel.findOne({ email: email });
     if (user) {
         const isExist = await user.addresses.some((item) => {
             return item.place === address
         })
         if (!isExist && address.length !== 0) {
-            const newArr = [...user.addresses];
-            newArr.push({ "place": address });
-            user.addresses = newArr;
+            user.addresses = address;
             await user.save();
             return {
                 message: "Update successful",
@@ -168,13 +166,79 @@ exports.addAddress = async(email, address) => {
     }
 }
 
-exports.getDetailUser = async(userID) => {
+exports.getDetailUser = async (userID) => {
     if (userID) {
         const user = await userModel.findOne({ _id: userID });
         return user;
     } else {
         return {
             message: "user is not exist"
+        }
+    }
+}
+
+
+exports.updateInfoUser = async (data) => {
+    const user = await userModel.findOne({ _id: data.id }, (err, doc) => null).clone().catch(function (err, arr) {
+        if (err) {
+            return false
+        } else {
+            console.log("my arr: ", arr)
+        }
+    });
+    if (user) {
+        user.name = data.name ? data.name : user.name;
+        user.phone = data.phone ? data.phone : user.phone;
+        user.dob = data.dob ? data.dob : user.dob;
+        user.save();
+        return {
+            message: "update success",
+            status: true
+        }
+    } else {
+        return {
+            message: "user is not exist",
+            status: false
+        }
+    }
+}
+
+
+
+exports.getDetailUserV2 = async (data) => {
+    const user = await userModel.findOne({ _id: data.id }, (err, doc) => null).clone().catch(function (err, arr) {
+        if (err) {
+            return false
+        } else {
+            console.log("my arr: ", arr)
+        }
+    });
+    if (user) {
+        return user
+    } else {
+        return "user is not exist"
+    }
+}
+
+exports.changePassword = async (data) => {
+    const user = await userModel.findOne({ _id: data.id }, (err, doc) => null).clone().catch(function (err, arr) {
+        if (err) {
+            return false
+        } else {
+            console.log("my arr: ", arr)
+        }
+    });
+    if (user) {
+        user.password = data.newPassword ? data.newPassword : user.password;
+        user.save();
+        return {
+            message: "update password is success",
+            status: true
+        }
+    } else {
+        return {
+            message: "user is not exist",
+            status: true
         }
     }
 }

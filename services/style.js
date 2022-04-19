@@ -1,12 +1,17 @@
 const styleModel = require('../models/style');
 const firebase = require('../db_firebase');
 
+async function deleteImagesOnFireBase(imageName) {
+    const imageNameFirebase = imageName.split("/");
+    await firebase.bucket.file(imageNameFirebase[imageNameFirebase.length - 1]).delete();
+}
+
 async function handleImage(req) {
     if (!req.file) {
         return "Error: No files found"
     }
     const imageName = req.file;
-    const finalName = "style_" + Date.now() + "." + imageName.originalname.split(".").pop();
+    const finalName = "style" + Date.now() + "." + imageName.originalname;
     const blob = firebase.bucket.file(finalName);
     return new Promise((resolve, reject) => {
         const blobWriter = blob.createWriteStream({
@@ -17,7 +22,7 @@ async function handleImage(req) {
         blobWriter.on('error', (err) => {
             reject(err);
         });
-        blobWriter.on('finish', async () => {
+        blobWriter.on('finish', async() => {
             await blob.makePublic()
             req.file.firebaseUr = `https://storage.googleapis.com/${process.env.STORAGE_BUCKET}/${finalName}`
             resolve(req.file.firebaseUr)
@@ -28,13 +33,13 @@ async function handleImage(req) {
 }
 
 
-exports.getAll = async () => {
+exports.getAll = async() => {
     const styleFromServer = await styleModel.find();
     return styleFromServer;
 }
 
 
-exports.addStyle = async (style, req) => {
+exports.addStyle = async(style, req) => {
     const isExist = await styleModel.findOne({ name: style.name.toLowerCase() });
     if (isExist) {
         return {
@@ -45,7 +50,7 @@ exports.addStyle = async (style, req) => {
         }
     }
     const url = await handleImage(req)
-    const newStyle = new styleModel({ ...style, images: url });
+    const newStyle = new styleModel({...style, images: url });
     await newStyle.save();
     return {
         payload: {
@@ -56,7 +61,11 @@ exports.addStyle = async (style, req) => {
 }
 
 
-exports.deleteStyle = async (id) => {
+exports.deleteStyle = async(id) => {
+    let row = await styleModel.findById(id);
+    if (row.images !== "Error: No files found") {
+        await deleteImagesOnFireBase(row.images);
+    }
     const check = await styleModel.deleteOne({ _id: id });
     if (check.deletedCount) {
         return {
@@ -75,12 +84,15 @@ exports.deleteStyle = async (id) => {
     }
 }
 
-exports.getStyleDetail = async (id) => {
+exports.getStyleDetail = async(id) => {
     return await styleModel.findById(id);
 }
 
-exports.updateStyle = async (data, req) => {
+exports.updateStyle = async(data, req) => {
     let row = await styleModel.findById(data.id);
+    if (req.file && row.images !== "Error: No files found") {
+        await deleteImagesOnFireBase(row.images);
+    }
     row.name = data.name;
     row.description = data.description;
     row.images = !req.file ? row.images : await handleImage(req);

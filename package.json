@@ -1,39 +1,39 @@
 {
-    "name": "ec2decord",
-    "version": "0.0.0",
-    "private": true,
-    "scripts": {
-        "start": "nodemon ./bin/www"
-    },
-    "dependencies": {
-        "bcryptjs": "^2.4.3",
-        "cookie-parser": "~1.4.4",
-        "debug": "~2.6.9",
-        "dotenv": "^10.0.0",
-        "express": "~4.16.1",
-        "firebase-admin": "^10.0.2",
-        "handlebars": "4.0.6",
-        "hbs": "~4.0.4",
-        "http-errors": "~1.6.3",
-        "jsonwebtoken": "^8.5.1",
-        "moment": "^2.29.2",
-        "mongoose": "^6.1.6",
-        "morgan": "^1.10.0",
-        "multer": "^1.4.4",
-        "nodemailer": "^6.7.2",
-        "nodemailer-express-handlebars": "^5.0.0",
-        "nodemon": "^2.0.15",
-        "passport": "^0.5.2",
-        "passport-facebook": "^3.0.0",
-        "passport-oauth2": "^1.6.1",
-        "socket.io": "^4.4.1",
-        "webpack": "^5.65.0"
-    },
-    "devDependencies": {
-        "eslint": "^7.32.0",
-        "eslint-config-standard": "^16.0.3",
-        "eslint-plugin-import": "^2.25.4",
-        "eslint-plugin-node": "^11.1.0",
-        "eslint-plugin-promise": "^5.2.0"
-    }
+  "name": "ec2decord",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./bin/www"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "dotenv": "^10.0.0",
+    "express": "~4.16.1",
+    "firebase-admin": "^10.0.2",
+    "handlebars": "4.0.6",
+    "hbs": "~4.0.4",
+    "http-errors": "~1.6.3",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.2",
+    "mongoose": "^6.1.6",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.4",
+    "nodemailer": "^6.7.2",
+    "nodemailer-express-handlebars": "^5.0.0",
+    "nodemon": "^2.0.15",
+    "passport": "^0.5.2",
+    "passport-facebook": "^3.0.0",
+    "passport-oauth2": "^1.6.1",
+    "socket.io": "^4.4.1",
+    "webpack": "^5.65.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.2.0"
+  }
 }

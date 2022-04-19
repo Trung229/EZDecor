@@ -28,6 +28,14 @@ hbs.registerHelper('getNameUser', (data, users, t) => {
     return users.find((item) => item._id.toString() == data.toString()).name;
 })
 
+hbs.registerHelper('convertBooleanPayment', (flag, t) => {
+    if (flag) {
+        return "Online"
+    } else {
+        return "Offline"
+    }
+})
+
 
 hbs.registerHelper('formatDate', (a, t) => {
     let date = new Date(a);

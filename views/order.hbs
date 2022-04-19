@@ -4,14 +4,12 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color:#DDAC8B; background-image:unset">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
-                </div>
-                <div class="sidebar-brand-text mx-3">Furniture <sup>2</sup></div>
+            <a class="sidebar-brand d-flex align-items-center justify-content-center">
+                    <image src="/images/ezlogo.png" width="60" height="60"/>
+                {{!-- <div class="sidebar-brand-text mx-3">Furniture <sup>2</sup></div> --}}
             </a>
 
             <!-- Divider -->
@@ -33,14 +31,14 @@
 
             <li class="nav-item">
                 <a class="nav-link" id="navigate_style">
-                    <i class="fas fa-fw fa-chart-area"></i>
+                    <i class="fas fa-fw fa-th"></i>
                     <span>Style</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
                 <a class="nav-link" id="navigate_category">
-                    <i class="fas fa-fw fa-table"></i>
+                    <i class="fas fa-fw fa-clone"></i>
                     <span>Category</span></a>
             </li>
 
@@ -48,15 +46,15 @@
             <!-- Nav Item - Tables -->
             <li class="nav-item">
                 <a class="nav-link" id="navigate_product">
-                    <i class="fas fa-fw fa-table"></i>
+                    <i class="fas fa-fw fa-box"></i>
                     <span>Product</span></a>
             </li>
 
 
             <!-- Nav Item - Tables -->
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" id="navigate_order">
-                    <i class="fas fa-fw fa-table"></i>
+                    <i class="fas fa-fw fa-shopping-bag"></i>
                     <span>Orders</span></a>
             </li>
             <!-- Divider -->
@@ -90,10 +88,10 @@
                     <form
                         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." 
                                 aria-label="Search" aria-describedby="basic-addon2">
                             <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
+                                <button class="btn btn-primary" type="button" style="background-color:#DDAC8B; border-color: #DDAC8B">
                                     <i class="fas fa-search fa-sm"></i>
                                 </button>
                             </div>
@@ -116,7 +114,8 @@
                                     <div class="input-group">
                                         <input type="text" class="form-control bg-light border-0 small"
                                             placeholder="Search for..." aria-label="Search"
-                                            aria-describedby="basic-addon2">
+                                            aria-describedby="basic-addon2"
+                                            >
                                         <div class="input-group-append">
                                             <button class="btn btn-primary" type="button">
                                                 <i class="fas fa-search fa-sm"></i>
@@ -127,7 +126,7 @@
                             </div>
                         </li>
 
-                        <!-- Nav Item - Alerts -->
+                        {{!-- <!-- Nav Item - Alerts -->
                         <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -239,7 +238,7 @@
                                 </a>
                                 <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
                             </div>
-                        </li>
+                        </li> --}}
 
                         <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -319,7 +318,7 @@
                                                 <span id="adminName">{{getNameUser this.customer_id ../user}}</span>
                                             </td>
                                             <td style="overflow-y:scroll">
-                                                <span>{{this.Address}}</span>
+                                                <span style="position:initial">{{this.Address}}</span>
                                             </td>
                                             <td>
                                                 <span>{{this.transportation.name}}</span>
@@ -327,12 +326,12 @@
                                             <td>
                                                 <span>{{this.voucher}}</span>
                                             </td>
-                                            <td><span>$ {{addCommas this.price}}</span></td>
+                                            <td><span style="width:100%; text-align:left; margin-left:20px;">$ {{addCommas this.price}}</span></td>
                                             <td>
-                                                <span>{{this.payment.name}}</span>
+                                                <span>{{convertBooleanPayment this.isOnlinePayment}}</span>
                                             </td>
                                             <td>
-                                                <span>{{this.date}}</span>
+                                                <span style="position:initial">{{this.date}}</span>
                                             </td>
                                             <td>
                                                 <span>{{this.status}}</span>

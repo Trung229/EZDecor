@@ -17,7 +17,7 @@ async function handleImage(req) {
         blobWriter.on('error', (err) => {
             reject(err);
         });
-        blobWriter.on('finish', async() => {
+        blobWriter.on('finish', async () => {
             await blob.makePublic()
             req.file.firebaseUr = `https://storage.googleapis.com/${process.env.STORAGE_BUCKET}/${finalName}`
             resolve(req.file.firebaseUr)
@@ -29,15 +29,26 @@ async function handleImage(req) {
 
 
 async function deleteImagesOnFireBase(imageName) {
-    await firebase.bucket.file(imageName).delete();
+    const imageNameFirebase = imageName.split("/");
+    await firebase.bucket.file(imageNameFirebase[imageNameFirebase.length - 1]).delete();
+}
+async function deleteImagesArrayOnFireBase(imageName) {
+    console.log(imageName);
+    const imageNameFirebase = imageName.split("/");
+    const finalString = `${imageNameFirebase[4]}/${imageNameFirebase[5]}/${imageNameFirebase[6]}`;
+    await firebase.bucket.file(finalString).delete();
 }
 
-async function handleArrImages(req) {
+async function deleteDirectory(name) {
+    await firebase.bucket.deleteFiles({ prefix: `product/${name}` });
+}
+
+async function handleArrImages(req, name) {
     if (!req) {
         return "Error: No files found"
     }
     const imageName = req;
-    let finalName = "product_" + Date.now() + "." + imageName.originalname;
+    let finalName = "product/" + name + "/" + Date.now() + "_" + imageName.originalname;
     const blob = firebase.bucket.file(finalName);
     return new Promise((resolve, reject) => {
         const blobWriter = blob.createWriteStream({
@@ -48,7 +59,7 @@ async function handleArrImages(req) {
         blobWriter.on('error', (err) => {
             reject(err);
         });
-        blobWriter.on('finish', async() => {
+        blobWriter.on('finish', async () => {
             await blob.makePublic()
             req.firebaseUr = `https://storage.googleapis.com/${process.env.STORAGE_BUCKET}/${finalName}`
             resolve(req.firebaseUr)
@@ -59,12 +70,12 @@ async function handleArrImages(req) {
 }
 
 
-exports.getAll = async() => {
+exports.getAll = async () => {
     const product = await productModel.find();
     return product;
 }
 
-exports.addProduct = async(product, req) => {
+exports.addProduct = async (product, req) => {
     const isExist = await productModel.findOne({ name: product.name });
     if (isExist) {
         return {
@@ -75,7 +86,7 @@ exports.addProduct = async(product, req) => {
         }
     }
     const url = await handleImage(req)
-    const newProduct = new productModel({...product, thumbnail: url, });
+    const newProduct = new productModel({ ...product, thumbnail: url, });
     await newProduct.save();
     return {
         payload: {
@@ -85,7 +96,10 @@ exports.addProduct = async(product, req) => {
     };
 }
 
-exports.deleteProduct = async(id) => {
+exports.deleteProduct = async (id) => {
+    let row = await productModel.findById(id);
+    await deleteImagesOnFireBase(row.thumbnail);
+    await deleteDirectory(row.name)
     const check = await productModel.deleteOne({ _id: id });
     if (check.deletedCount) {
         return {
@@ -104,7 +118,7 @@ exports.deleteProduct = async(id) => {
     }
 }
 
-exports.getProductDetail = async(id) => {
+exports.getProductDetail = async (id) => {
     const check = await productModel.findById(id);
     if (check) {
         return check
@@ -113,7 +127,7 @@ exports.getProductDetail = async(id) => {
     }
 }
 
-exports.updateImagesProduct = async(id, req) => {
+exports.updateImagesProduct = async (id, req) => {
     const product = await productModel.findById(id.toString());
     if (!product) {
         return {
@@ -123,8 +137,13 @@ exports.updateImagesProduct = async(id, req) => {
             }
         }
     } else {
-        const images = await Promise.all(req.files.map(async(item) => {
-            const url = await handleArrImages(item)
+        if (product.images.length > 0) {
+            await Promise.all(product.images.map(async (item) => {
+                await deleteImagesArrayOnFireBase(item.url)
+            }))
+        }
+        const images = await Promise.all(req.files.map(async (item) => {
+            const url = await handleArrImages(item, product.name)
             return { url };
         }))
         product.images = images;
@@ -138,7 +157,7 @@ exports.updateImagesProduct = async(id, req) => {
     }
 }
 
-exports.updateCategories = async(id, category) => {
+exports.updateCategories = async (id, category) => {
     const product = await productModel.findById(id.toString());
     if (!product) {
         return {
@@ -159,7 +178,7 @@ exports.updateCategories = async(id, category) => {
     }
 }
 
-exports.updateStyle = async(id, styleId) => {
+exports.updateStyle = async (id, styleId) => {
     const product = await productModel.findById(id.toString());
     if (!product) {
         return {
@@ -180,11 +199,11 @@ exports.updateStyle = async(id, styleId) => {
     }
 }
 
-exports.deleteImages = async(imagesName) => {
+exports.deleteImages = async (imagesName) => {
     deleteImagesOnFireBase(imagesName)
 }
 
-exports.updateProduct = async(product, req) => {
+exports.updateProduct = async (product, req) => {
     const row = await productModel.findById(product.id.toString());
     if (!row) {
         return {
@@ -194,6 +213,13 @@ exports.updateProduct = async(product, req) => {
             }
         }
     } else {
+        if (req.file) {
+            try {
+                await deleteImagesOnFireBase(row.thumbnail);
+            } catch (e) {
+                console.log(e);
+            }
+        }
         row.name = product ? product.name : row.name;
         row.price = product ? product.price : row.price;
         row.thumbnail = !req.file ? row.thumbnail : await handleImage(req);
@@ -209,7 +235,7 @@ exports.updateProduct = async(product, req) => {
     }
 }
 
-exports.getProductOnCategory = async function(categoryId) {
+exports.getProductOnCategory = async function (categoryId) {
     if (categoryId) {
         const product = await productModel.find();
         const productWithCategoryId = product.filter((item) => {
@@ -238,7 +264,7 @@ exports.getProductOnCategory = async function(categoryId) {
 }
 
 
-exports.getProductOnStyles = async function(stylesId) {
+exports.getProductOnStyles = async function (stylesId) {
     if (stylesId) {
         const product = await productModel.find();
         const productWithStylesId = product.filter((item) => {

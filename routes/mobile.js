@@ -9,7 +9,7 @@ const styleController = require('../controllers/style');
 const productController = require('../controllers/product');
 
 /* GET users listing. */
-router.post('/createAccount', async function(req, res, next) {
+router.post('/createAccount', async function (req, res, next) {
     const { email } = req.body;
     const check = await userController.checkEmail(email);
     const { payload: { message, status } } = check;
@@ -18,26 +18,26 @@ router.post('/createAccount', async function(req, res, next) {
         var transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: 'dtrtr2@gmail.com',
-                pass: '22112015ak'
+                user: process.env.EMAIL,
+                pass: process.env.PASSWORD
             }
         });
 
         transporter.use('compile', hbs({
             viewEngine: {
                 extname: '.handlebars',
-                partialDir: path.resolve('../app/views/productEmail'),
+                partialDir: path.resolve('../app/views/codeEmail'),
                 defaultLayout: false
             },
-            viewPath: path.resolve('../app/views/productEmail'),
+            viewPath: path.resolve('../app/views/codeEmail'),
             extname: '.handlebars',
 
         }))
 
         var mailOptions = {
-            from: 'dtrtr2@gmail.com',
+            from: process.env.EMAIL,
             to: email,
-            subject: 'MÃ XÁC NHẬN',
+            subject: `VERIFICATION - [${numberAuth}]`,
             template: 'index',
             context: {
                 name: email,
@@ -45,7 +45,7 @@ router.post('/createAccount', async function(req, res, next) {
             }
         };
 
-        transporter.sendMail(mailOptions, function(error, info) {
+        transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
                 console.log(error);
             } else {
@@ -58,12 +58,12 @@ router.post('/createAccount', async function(req, res, next) {
     }
 });
 
-router.post('/register', async function(req, res) {
+router.post('/register', async function (req, res) {
     const { name, email, password, dob, code, phone } = req.body;
     if (!name || !email || !password || !dob || !code || !phone) {
         res.json({
             status: false,
-            message: "some fields is empty"
+            message: "some fields are empty"
         })
     } else {
         const check = await userController.register(name, email, password, dob, code, phone);
@@ -71,7 +71,7 @@ router.post('/register', async function(req, res) {
     }
 })
 
-router.post('/login', async function(req, res) {
+router.post('/login', async function (req, res) {
     const { email, password } = req.body;
     console.log(email, password)
     if (email) {
@@ -79,6 +79,7 @@ router.post('/login', async function(req, res) {
         if (check.checkPass) {
             res.json({
                 message: "Login Success",
+                status: true,
                 data: check.data
             });
         } else {
@@ -99,35 +100,45 @@ router.post('/login', async function(req, res) {
     }
 })
 
-router.get('/category', async function(req, res, next) {
+router.get('/category', async function (req, res, next) {
     const category = await categoryController.getAll();
     res.send({ data: category });
 });
 
 
-router.get('/style', async function(req, res, next) {
+router.get('/style', async function (req, res, next) {
     const style = await styleController.getAll()
     res.send({ data: style });
 });
 
 
-router.post('/productDetail', async function(req, res, next) {
+router.post('/productDetail', async function (req, res, next) {
     const { id } = req.body;
     const product = await productController.getProductDetail(id);
     res.send({ product });
 });
 
-router.get('/product', async function(req, res, next) {
+router.get('/product', async function (req, res, next) {
     const product = await productController.getAll();
     res.send({ product });
 });
 
 
-router.post('/addAddress', async function(req, res, next) {
+router.post('/addAddress', async function (req, res, next) {
     const { email, address } = req.body;
     const product = await userController.addAddress(email, address);
     res.send({ product });
 })
 
+router.post('/updateInfoUser', async (req, res, next) => {
+    const payload = await userController.updateInfoUser(req.body);
+    res.send({ payload })
+})
+
+
+router.post('/changePassword', async (req, res, next) => {
+    const payload = await userController.changePassword(req.body);
+    res.send({ payload })
+})
 
 module.exports = router;

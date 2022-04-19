@@ -77,7 +77,7 @@
             <td align="center" style="background-color: #eeeeee;" bgcolor="#eeeeee">
                 <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:600px;">
                     <tr>
-                        <td align="center" valign="top" style="font-size:0; padding: 35px;" bgcolor="#F44336">
+                        <td align="center" valign="top" style="font-size:0; padding: 35px;background-color: #ddac8b;" bgcolor="#ddac8b">
                             <div style="display:inline-block; max-width:50%; min-width:100px; vertical-align:top; width:100%;">
                                 <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:300px;">
                                     <tr>
@@ -93,10 +93,7 @@
                                         <td align="right" valign="top" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 48px; font-weight: 400; line-height: 48px;">
                                             <table cellspacing="0" cellpadding="0" border="0" align="right">
                                                 <tr>
-                                                    <td style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400;">
-                                                        <p style="font-size: 18px; font-weight: 400; margin: 0; color: #ffffff;"><a href="#" target="_blank" style="color: #ffffff; text-decoration: none;">Shop &nbsp;</a></p>
-                                                    </td>
-                                                    <td style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 24px;"> <a href="#" target="_blank" style="color: #ffffff; text-decoration: none;"><img src="https://img.icons8.com/color/48/000000/small-business.png" width="27" height="23" style="display: block; border: 0px;" /></a> </td>
+                                                     <img width="80" border="0" style="display: block; width: 80px;" src="https://firebasestorage.googleapis.com/v0/b/furniture-upload-img.appspot.com/o/logo%2Fezlogo.png?alt=media&token=fa51600e-4b0e-469d-b5d5-253bd9cc3b4e" alt="" /></a>
                                                 </tr>
                                             </table>
                                         </td>
@@ -115,7 +112,7 @@
                                 </tr>
                                 <tr>
                                     <td align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding-top: 10px;">
-                                        <p style="font-size: 16px; font-weight: 400; line-height: 24px; color: #777777;"> Hello {{name}} Cảm ơn bạn đã tin tưởng và sử dụng dịch vụ của chúng tôi, dưới đây là hóa đơn chi tiết đơn hàng của bạn : </p>
+                                        <p style="font-size: 16px; font-weight: 400; line-height: 24px; color: #777777;"> Hello {{name}} Thank you for trusting and using our service, below is your order details invoice: </p>
                                     </td>
                                 </tr>
                                 <tr>
@@ -123,12 +120,14 @@
                                         <table cellspacing="0" cellpadding="0" border="0" width="100%">
                                             <tr>
                                                 <td width="75%" align="left" bgcolor="#eeeeee" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;"> Order Confirmation # </td>
-                                                <td width="25%" align="left" bgcolor="#eeeeee" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;"> {{id}} </td>
+                                                <td width="15%" align="left" bgcolor="#eeeeee" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;"> {{id}} </td>
+                                                <td width="10%" align="left" bgcolor="#eeeeee" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;"> quantity </td>
                                             </tr>
                                             {{#each products}}
                                             <tr>
-                                                <td width="75%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;"> {{this.name}} </td>
-                                                <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px; text-align:right"> $ {{this.price}} </td>
+                                                <td width="75%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;"> {{this.data.name}} </td>
+                                                <td width="15%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px; text-align:right"> $ {{this.data.price}} </td>
+                                                <td width="10%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px; text-align:right"> {{this.quantity}}</td>
                                             </tr>
                                             {{/each}}
                                         </table>
@@ -156,7 +155,7 @@
                                             <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:300px;">
                                                 <tr>
                                                     <td align="left" valign="top" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px;">
-                                                        <p style="font-weight: 800;">Địa chỉ giao hàng</p>
+                                                        <p style="font-weight: 800;">Delivery address</p>
                                                         <p>{{address}}</p>
                                                     </td>
                                                 </tr>
@@ -166,7 +165,7 @@
                                             <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:300px;">
                                                 <tr>
                                                     <td align="left" valign="top" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px;">
-                                                        <p style="font-weight: 800; text-align:right;">Ngày Dự tính giao</p>
+                                                        <p style="font-weight: 800; text-align:right;">Delivery date</p>
                                                         <p style="text-align:right;">{{date}}</p>
                                                     </td>
                                                 </tr>
@@ -178,7 +177,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td align="center" style=" padding: 35px; background-color: #ff7361;" bgcolor="#1b9ba3">
+                        <td align="center" style=" padding: 35px; background-color: #DDAC8B;" bgcolor="#DDAC8B">
                             <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:600px;">
                                 <tr>
                                     <td align="center" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding-top: 25px;">
@@ -201,7 +200,7 @@
                         <td align="center" style="padding: 35px; background-color: #ffffff;" bgcolor="#ffffff">
                             <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:600px;">
                                 <tr>
-                                    <td align="center"> <img src="https://i.pinimg.com/564x/d2/49/23/d249237a7257026ef43746edda0031d1.jpg" width="100" height="100" style="display: block; border: 0px;" /> </td>
+                                    <td align="center"> <img src= <img width="80" border="0" style="display: block; width: 80px;" src="https://firebasestorage.googleapis.com/v0/b/furniture-upload-img.appspot.com/o/logo%2Fezlogo.png?alt=media&token=fa51600e-4b0e-469d-b5d5-253bd9cc3b4e" width="100" height="100" style="display: block; border: 0px;" /> </td>
                                 </tr>
                                 <tr>
                                     <td align="center" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 24px; padding: 5px 0 10px 0;">

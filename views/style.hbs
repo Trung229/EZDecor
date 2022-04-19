@@ -7,17 +7,13 @@
     <ul
       class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
       id="accordionSidebar"
+      style="background-color:#DDAC8B; background-image:unset"
     >
 
       <!-- Sidebar - Brand -->
-      <a
-        class="sidebar-brand d-flex align-items-center justify-content-center"
-        href="index.html"
-      >
-        <div class="sidebar-brand-icon rotate-n-15">
-          <i class="fas fa-laugh-wink"></i>
-        </div>
-        <div class="sidebar-brand-text mx-3">Furniture <sup>2</sup></div>
+      <a class="sidebar-brand d-flex align-items-center justify-content-center">
+        <image src="/images/ezlogo.png" width="60" height="60" />
+        {{! <div class="sidebar-brand-text mx-3">Furniture <sup>2</sup></div> }}
       </a>
 
       <!-- Divider -->
@@ -33,36 +29,32 @@
       <!-- Divider -->
       <hr class="sidebar-divider" />
 
-      <div class="sidebar-heading">
-        Item
-      </div>
-
-      <li class="nav-item">
+      <li class="nav-item active">
         <a class="nav-link" id="navigate_style">
-          <i class="fas fa-fw fa-chart-area"></i>
+          <i class="fas fa-fw fa-th"></i>
           <span>Style</span></a>
       </li>
 
       <!-- Nav Item - Tables -->
       <li class="nav-item">
         <a class="nav-link" id="navigate_category">
-          <i class="fas fa-fw fa-table"></i>
+          <i class="fas fa-fw fa-clone"></i>
           <span>Category</span></a>
       </li>
 
       <!-- Nav Item - Tables -->
       <li class="nav-item">
         <a class="nav-link" id="navigate_product">
-          <i class="fas fa-fw fa-table"></i>
+          <i class="fas fa-fw fa-box"></i>
           <span>Product</span></a>
       </li>
-    
-    <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" id="navigate_order">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Orders</span></a>
-            </li>
+
+      <!-- Nav Item - Tables -->
+      <li class="nav-item">
+        <a class="nav-link" id="navigate_order">
+          <i class="fas fa-fw fa-shopping-bag"></i>
+          <span>Orders</span></a>
+      </li>
       <hr class="sidebar-divider d-none d-md-block" />
 
       <!-- Sidebar Toggler (Sidebar) -->
@@ -107,7 +99,11 @@
                 aria-describedby="basic-addon2"
               />
               <div class="input-group-append">
-                <button class="btn btn-primary" type="button">
+                <button
+                  class="btn btn-primary"
+                  type="button"
+                  style="background-color:#DDAC8B; border-color: #DDAC8B"
+                >
                   <i class="fas fa-search fa-sm"></i>
                 </button>
               </div>
@@ -154,7 +150,7 @@
               </div>
             </li>
 
-            <!-- Nav Item - Alerts -->
+            {{! <!-- Nav Item - Alerts -->
             <li class="nav-item dropdown no-arrow mx-1">
               <a
                 class="nav-link dropdown-toggle"
@@ -309,7 +305,7 @@
                   href="#"
                 >Read More Messages</a>
               </div>
-            </li>
+            </li> }}
 
             <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -377,8 +373,12 @@
             class="btn btn-primary btn-icon-split mt-1 mb-4"
             data-toggle="modal"
             data-target="#exampleModal"
+            style="background-color:#DDAC8B; border-color:#DDAC8B"
           >
-            <span class="icon text-white-50">
+            <span
+              class="icon text-white-50"
+              style="display:flex; align-items: center"
+            >
               <i class="fas fa-plus"></i>
             </span>
             <span class="text">Add Style</span>
@@ -709,7 +709,11 @@
             type="button"
             data-dismiss="modal"
           >Cancel</button>
-          <a id="confirm" class="btn btn-primary">Logout</a>
+          <a
+            id="confirm"
+            class="btn btn-primary"
+            style="background-color: #DDAC8B; border-color: #DDAC8B"
+          >Logout</a>
         </div>
       </div>
     </div>
@@ -777,5 +781,4 @@
   <script src="/javascripts/handleAddCommas.js"></script>
   <!--Product-->
   <script src="/javascripts/style.js"></script>
-
 </body>

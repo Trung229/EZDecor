@@ -31,7 +31,7 @@ router.post("/delete", async function(req, res, next) {
     } else {
         res.send({
             payload: {
-                message: "some field is required",
+                message: "some fields are empty",
                 status: false
             }
         })

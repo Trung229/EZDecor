@@ -49,7 +49,7 @@ router.get('/productDetail/:id', async function(req, res, next) {
 });
 
 
-router.post('/updateImagesProduct', uploadSingleImage.array("images", 20), async function(req, res, next) {
+router.post('/updateImagesProduct', uploadSingleImage.array("images"), async function(req, res, next) {
     const { id } = req.body;
     const result = await productController.updateImagesProduct(id, req);
     res.send({ result });
@@ -71,7 +71,7 @@ router.post('/updateStyle', async function(req, res, next) {
 router.post('/deleteImages', async(req, res, next) => {
     const { imageName } = req.body;
     const result = await productController.deleteImages(imageName);
-    res.send({ ok: "ok" });
+    res.send({ ok: "ok", result });
 })
 
 router.post('/updateProduct', uploadSingleImage.single('thumbnail'), async(req, res, next) => {

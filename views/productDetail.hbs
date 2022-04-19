@@ -7,57 +7,52 @@
     <ul
       class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
       id="accordionSidebar"
+      style="background-color:#DDAC8B; background-image:unset"
     >
 
-      <!-- Sidebar - Brand -->
-      <a
-        class="sidebar-brand d-flex align-items-center justify-content-center"
-        href="index.html"
-      >
-        <div class="sidebar-brand-icon rotate-n-15">
-          <i class="fas fa-laugh-wink"></i>
-        </div>
-        <div class="sidebar-brand-text mx-3">Furniture <sup>2</sup></div>
-      </a>
+                  <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" >
+                    <image src="/images/ezlogo.png" width="60" height="60"/>
+                {{!-- <div class="sidebar-brand-text mx-3">Furniture <sup>2</sup></div> --}}
+            </a>
+
 
       <!-- Divider -->
       <hr class="sidebar-divider my-0" />
 
       <!-- Nav Item - Dashboard -->
-      <li class="nav-item active">
+      <li class="nav-item">
         <a class="nav-link" id="home">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
       </li>
       <hr class="sidebar-divider" />
-      <div class="sidebar-heading">
-        Item
-      </div>
+
 
       <li class="nav-item">
         <a class="nav-link" id="navigate_style">
-          <i class="fas fa-fw fa-chart-area"></i>
+          <i class="fas fa-fw fa-th"></i>
           <span>Style</span></a>
       </li>
 
       <!-- Nav Item - Tables -->
       <li class="nav-item">
         <a class="nav-link" id="navigate_category">
-          <i class="fas fa-fw fa-table"></i>
+          <i class="fas fa-fw fa-clone"></i>
           <span>Category</span></a>
       </li>
 
       <!-- Nav Item - Tables -->
-      <li class="nav-item">
+      <li class="nav-item active">
         <a class="nav-link" id="navigate_product">
-          <i class="fas fa-fw fa-table"></i>
+          <i class="fas fa-fw fa-box"></i>
           <span>Product</span></a>
       </li>
 
       <!-- Nav Item - Tables -->
             <li class="nav-item">
                 <a class="nav-link" id="navigate_order">
-                    <i class="fas fa-fw fa-table"></i>
+                    <i class="fas fa-fw fa-shopping-bag"></i>
                     <span>Orders</span></a>
             </li>
       
@@ -153,7 +148,7 @@
               </div>
             </li>
 
-            <!-- Nav Item - Alerts -->
+            {{!-- <!-- Nav Item - Alerts -->
             <li class="nav-item dropdown no-arrow mx-1">
               <a
                 class="nav-link dropdown-toggle"
@@ -308,7 +303,7 @@
                   href="#"
                 >Read More Messages</a>
               </div>
-            </li>
+            </li> --}}
 
             <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -367,7 +362,7 @@
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
-          <a class="btn btn-info btn-icon-split"  data-toggle="modal" data-target="#updateImages" >
+          <a class="btn btn-info btn-icon-split"  data-toggle="modal" data-target="#updateImages" style="background-color:#DDAC8B; border-color:#DDAC8B" >
           <span class="icon text-white-50" style="display:flex; align-items:center">
           <i class="fas fa-plus"></i>
           </span>
@@ -456,7 +451,7 @@
                   <div>
                     {{#if category}}
                     {{#each (returnNewArr category allCategory)}}
-                    <span class="badge badge-info">{{this.name}}</span>
+                    <span class="badge badge-info" style="background-color:#ffdebb; color:#000000">{{this.name}}</span>
                     {{/each}}
                     {{else}}
                     <span>no data!!</span>
@@ -473,7 +468,7 @@
                   <div>
                     {{#if style}}
                     {{#each (returnNewArr style allStyle)}}
-                    <span class="badge badge-primary">{{this.name}}</span>
+                    <span class="badge badge-primary" style="background-color:#aa7d5e;">{{this.name}}</span>
                     {{/each}}
                     {{else}}
                     <span>no data!!</span>
@@ -511,7 +506,7 @@
               </div>
             </div>
           </section>
-          <section class="py-5 bg-light">
+          {{!-- <section class="py-5 bg-light">
             <h2 class="fw-bolder mb-4">Feedback</h2>
             <div class="text-justify darker mt-4">
               <img
@@ -545,9 +540,9 @@
                 molestias doloremque molestiae dicta?</p>
             </div>
 
-          </section>
+          </section> --}}
           <!-- Related items section-->
-          <section class="py-5 bg-light">
+          {{!-- <section class="py-5 bg-light">
             <div class="container px-4 px-lg-5">
               <h2 class="fw-bolder mt-4 mb-4">Related products</h2>
               <div
@@ -703,7 +698,7 @@
                 </div>
               </div>
             </div>
-          </section>
+          </section> --}}
         </div>
         <!-- /.container-fluid -->
 
@@ -874,7 +869,9 @@
             <label class="custom-file-label" for="productDetailFileImage">Choose file</label>
             </div>
             </div>
-            <img id="productDetailURLimage" style="width:50px; height:50px;" src="{{product.thumbnail}}"/>
+            <div style="width: 100%; height: 200px; display: flex; justify-content: center; align-items: center; overflow: hidden;">
+              <img id="productDetailURLimage" style="width:100%;" src="{{product.thumbnail}}"/>
+            </div>
             <div class="form-group">
             <label for="productDetailDescription">Description</label>
             <textarea class="form-control" id="productDetailDescription" rows="3"/>{{product.description}}</textarea>
@@ -946,7 +943,7 @@
             type="button"
             data-dismiss="modal"
           >Cancel</button>
-          <a id="confirm" class="btn btn-primary">Logout</a>
+          <a id="confirm" class="btn btn-primary" style="background-color: #DDAC8B;border-color: #DDAC8B">Logout</a>
         </div>
       </div>
     </div>

@@ -11,7 +11,7 @@ const userSchema = new schema({
     isAdmin: { type: Boolean },
     avatar: { type: String },
     token: { type: String },
-    dob: { type: Date },
+    dob: { type: String },
     createdAt: { type: Date },
     phone: { type: Number },
     addresses: [{

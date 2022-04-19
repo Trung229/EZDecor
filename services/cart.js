@@ -1,7 +1,16 @@
 const cartModel = require('../models/cart');
 
 exports.createCart = async(id) => {
-    const isExist = await cartModel.findOne({ customer_id: id });
+    const isExist = await cartModel.findOne({ customer_id: id }, (err, doc) => null).clone().catch(function(err, arr) {
+        if (err) {
+            return {
+                message: 'Wrong format Id',
+                status: false
+            }
+        } else {
+            console.log("my arr: ", arr)
+        }
+    });
     if (isExist) {
         return {
             message: 'Cart is exist',
@@ -19,7 +28,16 @@ exports.createCart = async(id) => {
 }
 
 exports.updateCart = async(id, data) => {
-    const cart = await cartModel.findOne({ _id: id });
+    const cart = await cartModel.findOne({ _id: id }, (err, doc) => null).clone().catch(function(err, arr) {
+        if (err) {
+            return {
+                message: 'Wrong format Id',
+                status: false
+            }
+        } else {
+            console.log("my arr: ", arr)
+        }
+    });
     if (cart) {
         const myArr = [...cart.products_id];
         const check = myArr.some((item) => {
@@ -57,7 +75,16 @@ exports.updateCart = async(id, data) => {
 
 exports.getAllCart = async(id) => {
     if (id) {
-        const cart = await cartModel.find({ customer_id: id });
+        const cart = await cartModel.find({ customer_id: id }, (err, doc) => null).clone().catch(function(err, arr) {
+            if (err) {
+                return {
+                    message: 'Wrong format Id',
+                    status: false
+                }
+            } else {
+                console.log("my arr: ", arr)
+            }
+        });
         return cart;
     } else {
         return {
